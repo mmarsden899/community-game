@@ -5,6 +5,8 @@ const app = require('./app')
 
 let charCreated = false
 
+const names = ['Bob', 'Greg', 'Joe']
+
 const getCharacters = function () {
   return $.ajax({
     url: config.apiUrl + '/characters',
@@ -36,7 +38,8 @@ const createCharacter = function (data) {
     },
     data: {
       'character': {
-        'user_name': 'Bob',
+        'user_id': store.user.id,
+        'user_name': names[Math.floor(Math.random() * names.length)],
         'x': 250,
         'y': 200
       }
@@ -55,8 +58,10 @@ const createCharacterSuccess = function (data) {
   let charCreated = true
   window.positionX = store.userCharacter.character.x
   window.positionY = store.userCharacter.character.y
+  window.user_name = store.userCharacter.character.user_name
   console.log('character success with ' + store.userCharacter.character.x)
   console.log('character app positionX is ' + app.positionX)
+  console.log(store.userCharacter.character.user_name)
 }
 
 const createCharacterFailure = function (data) {

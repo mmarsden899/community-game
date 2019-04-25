@@ -22,6 +22,8 @@ const FACING_RIGHT = 3;
 const FRAME_LIMIT = 12;
 const MOVEMENT_SPEED = 1;
 
+const characterSprites = ['https://i.imgur.com/UXlqiz6.png', 'https://i.imgur.com/NFU0D5v.png']
+
 let canvas = document.querySelector('canvas');
 let ctx = canvas.getContext('2d');
 let keyPresses = {};
@@ -30,6 +32,7 @@ let currentLoopIndex = 0;
 let frameCount = 0;
 window.positionX = 0
 window.positionY = 0
+window.user_name = ''
 let img = new Image();
 
 test.onGetCharacters()
@@ -41,7 +44,7 @@ function keyDownListener(event) {
 
 window.addEventListener('keyup', keyUpListener);
 function keyUpListener(event) {
-    keyPresses[event.key] = false;
+    keyPresses[event.key] = false
 }
 
 function loadImage() {
@@ -95,6 +98,7 @@ function gameLoop() {
   if (!hasMoved) {
     currentLoopIndex = 0;
   }
+  ctx.fillText(window.user_name, window.positionX + 21.5, window.positionY - 10)
   drawFrame(CYCLE_LOOP[0], FACING_DOWN, store.otherCharacters.characters[0].x, store.otherCharacters.characters[0].y)
   drawFrame(CYCLE_LOOP[0], FACING_RIGHT, store.otherCharacters.characters[1].x, store.otherCharacters.characters[1].y)
   drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, positionX, positionY);
@@ -119,6 +123,5 @@ $(() => {
 })
 
 module.exports = {
-  positionX,
-  positionY
+  characterSprites
 }
