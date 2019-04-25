@@ -1,1 +1,19 @@
 @import '~bootstrap/scss/bootstrap';
+
+body {
+  background-color: black;
+}
+
+canvas {
+  border: 1px solid black;
+  background-color: green;
+  margin-left: 50px;
+}
+
+.block {
+  top: 200px;
+  position: absolute;
+  background-color: red;
+  height: 50px;
+  width: 50px;
+}
