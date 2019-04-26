@@ -56,7 +56,7 @@ function loadImage() {
   }
 }
 
-function drawFrame(frameX, frameY, canvasX, canvasY) {
+function drawFrame (frameX, frameY, canvasX, canvasY) {
   ctx.drawImage(img,
                 frameX * WIDTH, frameY * HEIGHT, WIDTH, HEIGHT,
                 canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
@@ -103,7 +103,8 @@ function gameLoop() {
   ctx.fillText(window.user_name, window.positionX + 21.5, window.positionY - 10)
 
   Object.keys(store.otherCharacters.characters).forEach(function (key) {
-    if (store.otherCharacters.characters[key].active === true) {
+    if ((store.otherCharacters.characters[key].active === true) &&
+      (store.otherCharacters.characters[key].id !== store.otherCharacters.characters.length)) {
       drawFrame(CYCLE_LOOP[0], FACING_DOWN, store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
 }
 }

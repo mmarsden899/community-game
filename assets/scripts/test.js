@@ -20,7 +20,7 @@ const onGetCharacters = function () {
   getCharacters()
     .then(showCharacterSuccess)
     .catch(console.log('getcharacterfailure'))
-  setTimeout(onGetCharacters, 1000)
+  setTimeout(onGetCharacters, 500)
 }
 
 const showCharacterSuccess = function (data) {
@@ -93,10 +93,10 @@ const onUpdateCharacter = function () {
   updateCharacter()
     .then(updateCharacterSuccess)
     .catch(updateCharacterFailure)
-  setTimeout(onUpdateCharacter, 1000)
+  setTimeout(onUpdateCharacter, 500)
 } else {
   console.log('not currently true')
-  setTimeout(onUpdateCharacter, 1000)
+  setTimeout(onUpdateCharacter, 500)
 }
 }
 const isCharCreatedTrue = function () {
