@@ -3,7 +3,7 @@ const store = require('./store')
 const getFormFields = require('./../../lib/get-form-fields')
 const app = require('./app')
 
-let charCreated = false
+window.charCreated = false
 
 const names = ['Bob', 'Greg', 'Joe']
 
@@ -55,7 +55,8 @@ const onCreateCharacter = function () {
 
 const createCharacterSuccess = function (data) {
   store.userCharacter = data
-  let charCreated = true
+  window.charCreated = true
+  console.log('window character created is ' + window.charCreated)
   window.positionX = store.userCharacter.character.x
   window.positionY = store.userCharacter.character.y
   window.user_name = store.userCharacter.character.user_name
@@ -67,6 +68,54 @@ const createCharacterSuccess = function (data) {
 const createCharacterFailure = function (data) {
   console.log('failed with data ' + data)
 }
+
+const updateCharacter = function () {
+  return $.ajax({
+    url: config.apiUrl + `/characters/${store.userCharacter.character.id}`,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    },
+    data: {
+      'character': {
+        'x': window.positionX,
+        'y': window.positionY,
+        'active': true
+      }
+    }
+  })
+}
+
+
+const onUpdateCharacter = function () {
+  if (window.charCreated === true) {
+    console.log('=============' + store.userCharacter.character.id)
+  updateCharacter()
+    .then(updateCharacterSuccess)
+    .catch(updateCharacterFailure)
+  setTimeout(onUpdateCharacter, 1000)
+} else {
+  console.log('not currently true')
+  setTimeout(onUpdateCharacter, 1000)
+}
+}
+const isCharCreatedTrue = function () {
+  if (window.charCreated === true) {
+    onUpdateCharacter()
+    console.log('this should be working charcreated')
+  } else {
+    console.log('window CharCreated isnt true')
+  }
+}
+
+const updateCharacterSuccess = function (data) {
+  console.log('update character success with' + data)
+}
+
+const updateCharacterFailure = function (data) {
+  console.log('update character failure with ' + JSON.stringify(data))
+}
+
 
 const signIn = function (data) {
   return $.ajax({
@@ -98,5 +147,8 @@ module.exports = {
   createCharacterSuccess,
   signIn,
   onSignIn,
-  signInSuccess
+  signInSuccess,
+  onUpdateCharacter,
+  updateCharacter,
+  isCharCreatedTrue
 }

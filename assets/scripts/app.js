@@ -36,13 +36,15 @@ window.user_name = ''
 let img = new Image();
 
 test.onGetCharacters()
+test.onUpdateCharacter()
 
-window.addEventListener('keydown', keyDownListener);
+
+window.addEventListener('keydown', keyDownListener)
 function keyDownListener(event) {
-    keyPresses[event.key] = true;
+    keyPresses[event.key] = true
 }
 
-window.addEventListener('keyup', keyUpListener);
+window.addEventListener('keyup', keyUpListener)
 function keyUpListener(event) {
     keyPresses[event.key] = false
 }
@@ -51,7 +53,7 @@ function loadImage() {
   img.src = 'https://i.imgur.com/UXlqiz6.png';
   img.onload = function() {
     window.requestAnimationFrame(gameLoop);
-  };
+  }
 }
 
 function drawFrame(frameX, frameY, canvasX, canvasY) {
@@ -99,20 +101,25 @@ function gameLoop() {
     currentLoopIndex = 0;
   }
   ctx.fillText(window.user_name, window.positionX + 21.5, window.positionY - 10)
-  drawFrame(CYCLE_LOOP[0], FACING_DOWN, store.otherCharacters.characters[0].x, store.otherCharacters.characters[0].y)
-  drawFrame(CYCLE_LOOP[0], FACING_RIGHT, store.otherCharacters.characters[1].x, store.otherCharacters.characters[1].y)
-  drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, positionX, positionY);
+
+  Object.keys(store.otherCharacters.characters).forEach(function (key) {
+    if (store.otherCharacters.characters[key].active === true) {
+      drawFrame(CYCLE_LOOP[0], FACING_DOWN, store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
+}
+}
+)
+  drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, window.positionX, window.positionY);
   window.requestAnimationFrame(gameLoop);
 }
 
 function moveCharacter(deltaX, deltaY, direction) {
-  if (positionX + deltaX > 0 && positionX + SCALED_WIDTH + deltaX < canvas.width) {
-    positionX += deltaX;
+  if (window.positionX + deltaX > 0 && window.positionX + SCALED_WIDTH + deltaX < canvas.width) {
+    window.positionX += deltaX;
     console.log(positionX, positionY)
   }
-  if (positionY + deltaY > 0 && positionY + SCALED_HEIGHT + deltaY < canvas.height && ((positionY < 35 || positionX > 35) || (positionY > 150 || positionX > 35))) {
+  if (window.positionY + deltaY > 0 && window.positionY + SCALED_HEIGHT + deltaY < canvas.height && ((window.positionY < 35 || window.positionX > 35) || (window.positionY > 150 || window.positionX > 35))) {
     console.log(positionX, positionY)
-    positionY += deltaY;
+    window.positionY += deltaY;
   }
   currentDirection = direction;
 }
