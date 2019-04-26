@@ -5,7 +5,7 @@ const app = require('./app')
 
 window.charCreated = false
 
-const names = ['Bob', 'Greg', 'Joe']
+const names = ['Bob', 'Greg', 'Joe', 'Essel']
 
 const getCharacters = function () {
   return $.ajax({
@@ -66,7 +66,7 @@ const createCharacterSuccess = function (data) {
 }
 
 const createCharacterFailure = function (data) {
-  console.log('failed with data ' + data)
+  console.log('failed with data ' + JSON.stringify(data))
 }
 
 const updateCharacter = function () {
@@ -138,6 +138,7 @@ const onSignIn = function (event) {
 const signInSuccess = function (data) {
   store.user = data.user
   console.log(data.user)
+  canCreateCharacter()
 }
 
 const unLoad = function () {
@@ -156,6 +157,14 @@ const unLoad = function () {
   })
 }
 
+const canCreateCharacter = function () {
+  if (Object.values(store.otherCharacters.characters).indexOf(store.user.id) > -1) {
+    console.log('heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+  } else {
+    $('#create-character').show()
+  }
+}
+
 module.exports = {
   getCharacters,
   onGetCharacters,
@@ -168,5 +177,5 @@ module.exports = {
   onUpdateCharacter,
   updateCharacter,
   isCharCreatedTrue,
-  unLoad
+  unLoad,
 }

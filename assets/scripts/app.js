@@ -107,7 +107,6 @@ function gameLoop() {
   Object.keys(store.otherCharacters.characters).forEach(function (key) {
     if ((store.otherCharacters.characters[key].active === true) &&
       (store.otherCharacters.characters[key].id !== store.userCharacter.character.id)) {
-        console.log(store.userCharacter.character.id)
       drawFrame(CYCLE_LOOP[0], FACING_DOWN, store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
 }
 }
@@ -129,6 +128,7 @@ function moveCharacter(deltaX, deltaY, direction) {
 }
 
 $(() => {
+  $('#create-character').hide()
   $('#create-character').on('click', test.onCreateCharacter)
   $('#sign-in').on('submit', test.onSignIn)
   $(window).on('unload', test.unLoad)
