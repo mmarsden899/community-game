@@ -158,9 +158,15 @@ const unLoad = function () {
 }
 
 const canCreateCharacter = function () {
-  if (Object.values(store.otherCharacters.characters).indexOf(store.user.id) > -1) {
-    console.log('heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+  const userIDArray = []
+  for (let i = 0; i < store.otherCharacters.characters.length; i++) {
+    userIDArray.push(store.otherCharacters.characters[i].user_id)
+  }
+  if (userIDArray.some(function (index) { return index === store.user.id })) {
+    console.log('heyyyyyyyyyyyyy this works')
+    console.log(userIDArray)
   } else {
+    console.log('this shouldnt be working')
     $('#create-character').show()
   }
 }
