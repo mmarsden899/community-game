@@ -35,6 +35,8 @@ window.positionY = 0
 window.user_name = ''
 let img = new Image();
 
+store.userCharacter = {}
+store.userCharacter.character = 0
 test.onGetCharacters()
 test.onUpdateCharacter()
 
@@ -103,8 +105,8 @@ function gameLoop() {
   ctx.fillText(window.user_name, window.positionX + 21.5, window.positionY - 10)
 
   Object.keys(store.otherCharacters.characters).forEach(function (key) {
-    if ((store.otherCharacters.characters[key].active === true) &&
-      (store.otherCharacters.characters[key].id !== store.otherCharacters.characters.length)) {
+    if ((store.otherCharacters.characters[key].active === true) ||
+      (store.otherCharacters.characters[key].id !== store.userCharacter.character.id)) {
       drawFrame(CYCLE_LOOP[0], FACING_DOWN, store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
 }
 }
@@ -128,7 +130,9 @@ function moveCharacter(deltaX, deltaY, direction) {
 $(() => {
   $('#create-character').on('click', test.onCreateCharacter)
   $('#sign-in').on('submit', test.onSignIn)
+  $(window).on('unload', test.unLoad)
 })
+
 
 module.exports = {
   characterSprites

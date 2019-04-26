@@ -87,6 +87,7 @@ const updateCharacter = function () {
 }
 
 
+
 const onUpdateCharacter = function () {
   if (window.charCreated === true) {
     console.log('=============' + store.userCharacter.character.id)
@@ -139,6 +140,22 @@ const signInSuccess = function (data) {
   console.log(data.user)
 }
 
+const unLoad = function () {
+  return $.ajax({
+    url: config.apiUrl + `/characters/${store.userCharacter.character.id}`,
+    async: false,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    },
+    data: {
+      'character': {
+        'active': false
+      }
+    }
+  })
+}
+
 module.exports = {
   getCharacters,
   onGetCharacters,
@@ -150,5 +167,6 @@ module.exports = {
   signInSuccess,
   onUpdateCharacter,
   updateCharacter,
-  isCharCreatedTrue
+  isCharCreatedTrue,
+  unLoad
 }
