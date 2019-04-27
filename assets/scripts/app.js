@@ -38,7 +38,6 @@ let img = new Image();
 store.userCharacter = {}
 store.userCharacter.character = 0
 test.onGetCharacters()
-test.onUpdateCharacter()
 
 
 window.addEventListener('keydown', keyDownListener)
@@ -102,8 +101,9 @@ function gameLoop() {
   if (!hasMoved) {
     currentLoopIndex = 0;
   }
-  ctx.fillText(window.user_name, window.positionX + 21.5, window.positionY - 10)
 
+  if (window.charCreated === true) {
+  ctx.fillText(window.user_name, window.positionX + 21.5, window.positionY - 10)
   Object.keys(store.otherCharacters.characters).forEach(function (key) {
     if ((store.otherCharacters.characters[key].active === true) &&
       (store.otherCharacters.characters[key].id !== store.userCharacter.character.id)) {
@@ -113,6 +113,7 @@ function gameLoop() {
 )
   drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, window.positionX, window.positionY);
   window.requestAnimationFrame(gameLoop);
+}
 }
 
 function moveCharacter(deltaX, deltaY, direction) {
@@ -131,6 +132,10 @@ $(() => {
   $('#create-character').hide()
   $('#create-character').on('click', test.onCreateCharacter)
   $('#sign-in').on('submit', test.onSignIn)
+  $('#play').on('click', gameLoop)
+  $('#play').on('click', test.onUpdateCharacter)
+  $('#updatechar').on('click', test.isCharCreatedTrue)
+  $('#sign-up').on('submit', test.onSignUp)
   $(window).on('unload', test.unLoad)
 })
 

@@ -19,14 +19,23 @@ const getCharacters = function () {
 const onGetCharacters = function () {
   getCharacters()
     .then(showCharacterSuccess)
-    .catch(console.log('getcharacterfailure'))
+    .catch(showCharacterFailure)
   setTimeout(onGetCharacters, 500)
+}
+const showCharacterFailure = function (data) {
+  console.log('failed with dataaa ' + data)
 }
 
 const showCharacterSuccess = function (data) {
   store.otherCharacters = data
-  console.log('xpos is ' + store.otherCharacters.characters[0].x)
-  console.log(store.otherCharacters.characters[0])
+  store.character = data.characters[window.userIDIndex]
+  console.log('isshowcharactersuccessfiring?')
+  console.log(store.character.user_name)
+  console.log(store.character.id)
+  // console.log('storeeeeeee id is ' + store.character.id)
+  // console.log('==================oooo=======================')
+  // console.log('the user index things are ' + store.otherCharacters.characters[window.userIDIndex].id)
+  // console.log('the stores user id is ' + store.character.id)
 }
 
 const createCharacter = function (data) {
@@ -71,7 +80,7 @@ const createCharacterFailure = function (data) {
 
 const updateCharacter = function () {
   return $.ajax({
-    url: config.apiUrl + `/characters/${store.userCharacter.character.id}`,
+    url: config.apiUrl + `/characters/${store.character.id}`,
     method: 'PATCH',
     headers: {
       Authorization: 'Token token=' + store.user.token
@@ -87,25 +96,28 @@ const updateCharacter = function () {
 }
 
 
-
 const onUpdateCharacter = function () {
-  if (window.charCreated === true) {
-    console.log('=============' + store.userCharacter.character.id)
+  console.log('is update character firing?')
   updateCharacter()
     .then(updateCharacterSuccess)
     .catch(updateCharacterFailure)
   setTimeout(onUpdateCharacter, 500)
-} else {
-  console.log('not currently true')
-  setTimeout(onUpdateCharacter, 500)
 }
+
+const onUpdateCharacterOnce = function () {
+  updateCharacter()
+    .then(updateCharacterSuccess)
+    .catch(updateCharacterFailure)
 }
+
 const isCharCreatedTrue = function () {
+  console.log('is char created true firing?')
   if (window.charCreated === true) {
     onUpdateCharacter()
     console.log('this should be working charcreated')
   } else {
     console.log('window CharCreated isnt true')
+    setTimeout(isCharCreatedTrue, 500)
   }
 }
 
@@ -137,13 +149,35 @@ const onSignIn = function (event) {
 
 const signInSuccess = function (data) {
   store.user = data.user
-  console.log(data.user)
   canCreateCharacter()
+  window.charCreated = true
+  console.log(data.user)
+}
+
+const signUp = function (data) {
+  return $.ajax({
+    url: config.apiUrl + 'sign-up',
+    method: 'POST',
+    data
+  })
+}
+
+const onSignUp = function (event) {
+  event.preventDefault()
+  const data = getFormFields(event.target)
+  signUp(data)
+    .then(signUpSuccess)
+    .catch(console.log('sign up failure'))
+}
+
+
+const signUpSuccess = function (data) {
+  console.log('sign up is firing succesfully')
 }
 
 const unLoad = function () {
   return $.ajax({
-    url: config.apiUrl + `/characters/${store.userCharacter.character.id}`,
+    url: config.apiUrl + `/characters/${store.character.id}`,
     async: false,
     method: 'PATCH',
     headers: {
@@ -163,8 +197,12 @@ const canCreateCharacter = function () {
     userIDArray.push(store.otherCharacters.characters[i].user_id)
   }
   if (userIDArray.some(function (index) { return index === store.user.id })) {
+    window.userIDIndex = userIDArray.findIndex(function (index) { return index === store.user.id })
+    console.log('=======================================================')
+    window.positionX = store.otherCharacters.characters[window.userIDIndex].x
+    window.positionY = store.otherCharacters.characters[window.userIDIndex].y
+    window.user_name = store.otherCharacters.characters[window.userIDIndex].user_name
     console.log('heyyyyyyyyyyyyy this works')
-    console.log(userIDArray)
   } else {
     console.log('this shouldnt be working')
     $('#create-character').show()
@@ -184,4 +222,5 @@ module.exports = {
   updateCharacter,
   isCharCreatedTrue,
   unLoad,
+  onUpdateCharacterOnce
 }
