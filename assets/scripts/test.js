@@ -156,7 +156,7 @@ const signInSuccess = function (data) {
 
 const signUp = function (data) {
   return $.ajax({
-    url: config.apiUrl + 'sign-up',
+    url: config.apiUrl + '/sign-up',
     method: 'POST',
     data
   })
@@ -167,7 +167,7 @@ const onSignUp = function (event) {
   const data = getFormFields(event.target)
   signUp(data)
     .then(signUpSuccess)
-    .catch(console.log('sign up failure'))
+    .catch(console.log('sign up failure with data ' + JSON.stringify(data)))
 }
 
 
@@ -222,5 +222,7 @@ module.exports = {
   updateCharacter,
   isCharCreatedTrue,
   unLoad,
-  onUpdateCharacterOnce
+  onUpdateCharacterOnce,
+  onSignUp,
+  signUp
 }
