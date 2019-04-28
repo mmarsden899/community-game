@@ -218,16 +218,14 @@ const getMessageSuccess = (data) => {
   console.log(data)
   store.allMessages = data
   console.log('store allmessages is showing as' + store.allMessages.messages[1].text)
-  const showMessagesHtml = showMessagesTemplate({ messages: data.messages })
-  $('#chat-content').html(showMessagesHtml)
 }
 
 const onGetMessages = (event) => {
-  event.preventDefault()
   console.log('were getting to onGetMessages')
   getMessages()
     .then(getMessageSuccess)
     .catch(console.log('ongetmessages did not function'))
+  setTimeout(onGetMessages, 500)
 }
 
 const getMessages = function () {

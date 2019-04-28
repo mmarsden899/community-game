@@ -8,6 +8,7 @@
 
 const test = require('./test')
 const store = require('./store')
+const moment = require('moment')
 
 const SCALE = 1
 const WIDTH = 60
@@ -38,6 +39,7 @@ let img = new Image()
 store.userCharacter = {}
 store.userCharacter.character = 0
 test.onGetCharacters()
+test.onGetMessages()
 
 
 window.addEventListener('keydown', keyDownListener)
@@ -57,13 +59,20 @@ function loadImage () {
   }
 }
 
+
+
 const showMessageOnRender = function () {
   // console.log('showmessageonrender funciton is firing')
   for (let i = 0; i < store.allMessages.messages.length; i++) {
     // console.log(store.allMessages.messages[i].text)
-    if (store.allMessages.messages[i].user_id === store.user.id) {
-      // ctx.fillText(store.allMessages.messages[i].text, window.positionX + 21.5, window.positionY - 20)
-      console.log(store.allMessages.messages[i].text)
+  //  console.log('current time is! ' + (moment().format('hh:mm:ss')))
+  //  console.log('future time is! ' + (moment().add(10, 'seconds').format('hh:mm:ss')))
+    if (store.allMessages.messages[i].user_id === store.user.id && moment(store.allMessages.messages[i].created_at).add(30, 'seconds').format('MMMM Do YYYY, hh:mm:ss a') >= (moment().format('MMMM Do YYYY, hh:mm:ss'))) {
+      // console.log('the old time of message is + !!!' + (moment(store.allMessages.messages[i].created_at).add(30, 'second').format('MMMM Do YYYY, hh:mm:ss a')))
+      // console.log('the current time of now is + !!!' + moment().format('MMMM Do YYYY, hh:mm:ss a'))
+       ctx.fillText(store.allMessages.messages[i].text, window.positionX + 21.5, window.positionY - 20)
+    } else {
+      ctx.fillText(' ', window.positionX + 21.5, window.positionY - 20)
     }
   }
 }
@@ -115,7 +124,6 @@ function gameLoop() {
   }
 
   if (window.charCreated === true) {
-    showMessageOnRender()
   ctx.fillText(window.user_name, window.positionX + 21.5, window.positionY - 10)
   Object.keys(store.otherCharacters.characters).forEach(function (key) {
     if ((store.otherCharacters.characters[key].active === true) &&
@@ -125,6 +133,7 @@ function gameLoop() {
 }
 }
 )
+  showMessageOnRender()
   drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, window.positionX, window.positionY);
   window.requestAnimationFrame(gameLoop)
 }
