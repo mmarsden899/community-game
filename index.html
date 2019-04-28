@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Example</title>
+      <title>Community the Game</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
 
       <!-- Do not add `link` tags-->
@@ -12,26 +12,34 @@
       <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
     <body>
-      <h1>Browser Template</h1>
+      <h1>Community the Game</h1>
       <div id="loginForms">
         <form id="sign-in" name="signIn">
-      <input type="email" name="credentials[email]" placeholder="Email" class="sign-in-form">
-      <input type="password" autocomplete="off" name="credentials[password]" placeholder="Password" class="sign-in-form">
+      <input type="email" name="credentials[email]" placeholder="Email" class="sign-in-form" autocomplete="email username">
+      <input type="password" name="credentials[password]" placeholder="Password" class="sign-in-form" autocomplete="password">
       <p id="signInError" class="signInError"></p>
-      <input type="submit" autocomplete="off" value="Sign In!" class="sign-in-button submit-button">
+      <input type="submit" value="Sign In!" class="sign-in-button submit-button">
     </form>
   </div>
   <div id="signUpForm">
 <form id="sign-up">
-<input type="text" name="credentials[email]" placeholder="Email" class="sign-up-form">
-<input type="password" name="credentials[password]" placeholder="Password" class="sign-up-form">
-<input type="password" name="credentials[password_confirmation]" placeholder="Password Confirmation" class="sign-up-form">
+<input type="text" name="credentials[email]" placeholder="Email" class="sign-up-form" autocomplete="email username">
+<input type="password" name="credentials[password]" placeholder="Password" class="sign-up-form" autocomplete="password">
+<input type="password" name="credentials[password_confirmation]" placeholder="Password Confirmation" class="sign-up-form" autocomplete="password">
 <input type="submit" value="Sign Up!" class="signUpButton submit-button">
 </form>
 </div>
   <button id="play">Play</button>
   <button id="updatechar">Update</button>
-      <canvas width="1000" height="400"></canvas>
+  <button id="destroychar">Destory</button>
+  <canvas width="1000" height="400"></canvas>
+  <div id="chat" class="chat">
+    <div id="chat-content"></div>
+    <form id="text-submit">
+    <input type="text" id="text-input" class="chat-text">
+    <input type='submit' id='submit-text-button'>
+        </form>
+      </div>
       <button id="create-character">Create Character</button>
     </body>
 </html>
