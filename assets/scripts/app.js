@@ -62,14 +62,22 @@ function loadImage () {
 
 
 const showMessageOnRender = function () {
-  // console.log('showmessageonrender funciton is firing')
   for (let i = 0; i < store.allMessages.messages.length; i++) {
-    // console.log(store.allMessages.messages[i].text)
-  //  console.log('current time is! ' + (moment().format('hh:mm:ss')))
-  //  console.log('future time is! ' + (moment().add(10, 'seconds').format('hh:mm:ss')))
-    if (store.allMessages.messages[i].user_id === store.user.id && moment(store.allMessages.messages[i].created_at).add(30, 'seconds').format('MMMM Do YYYY, hh:mm:ss a') >= (moment().format('MMMM Do YYYY, hh:mm:ss'))) {
-      // console.log('the old time of message is + !!!' + (moment(store.allMessages.messages[i].created_at).add(30, 'second').format('MMMM Do YYYY, hh:mm:ss a')))
-      // console.log('the current time of now is + !!!' + moment().format('MMMM Do YYYY, hh:mm:ss a'))
+    if (store.allMessages.messages[i].user_id === store.user.id &&
+      moment(store.allMessages.messages[i].created_at).add(30, 'seconds').format('MMMM Do YYYY, hh:mm:ss a') >=
+      (moment().format('MMMM Do YYYY, hh:mm:ss'))) {
+       ctx.fillText(store.allMessages.messages[i].text, window.positionX + 21.5, window.positionY - 20)
+    } else {
+      ctx.fillText(' ', window.positionX + 21.5, window.positionY - 20)
+    }
+  }
+}
+
+const showCharactersMessages = function () {
+  for (let i = 0; i < store.allMessages.messages.length; i++) {
+    if (store.allMessages.messages[i].user_id === store.otherCharacters.characters[key].id &&
+      moment(store.allMessages.messages[i].created_at).add(30, 'seconds').format('MMMM Do YYYY, hh:mm:ss a') >=
+      (moment().format('MMMM Do YYYY, hh:mm:ss'))) {
        ctx.fillText(store.allMessages.messages[i].text, window.positionX + 21.5, window.positionY - 20)
     } else {
       ctx.fillText(' ', window.positionX + 21.5, window.positionY - 20)
@@ -124,18 +132,25 @@ function gameLoop() {
   }
 
   if (window.charCreated === true) {
-  ctx.fillText(window.user_name, window.positionX + 21.5, window.positionY - 10)
-  Object.keys(store.otherCharacters.characters).forEach(function (key) {
-    if ((store.otherCharacters.characters[key].active === true) &&
+    ctx.fillText(window.user_name, window.positionX + 21.5, window.positionY - 10)
+    Object.keys(store.otherCharacters.characters).forEach(function (key) {
+      if ((store.otherCharacters.characters[key].active === true) &&
       (store.otherCharacters.characters[key].id !== window.id)) {
+        for (let i = 0; i < store.allMessages.messages.length; i++) {
+          if (store.allMessages.messages[i].user_id === store.otherCharacters.characters[key].id &&
+            moment(store.allMessages.messages[i].created_at).add(30, 'seconds').format('MMMM Do YYYY, hh:mm:ss a') >=
+            (moment().format('MMMM Do YYYY, hh:mm:ss'))) {
+            ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
+          }
+        }
         ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 10)
-      drawFrame(CYCLE_LOOP[0], FACING_DOWN, store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
+        drawFrame(CYCLE_LOOP[0], FACING_DOWN, store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
 }
 }
 )
-  showMessageOnRender()
-  drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, window.positionX, window.positionY);
-  window.requestAnimationFrame(gameLoop)
+    showMessageOnRender()
+    drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, window.positionX, window.positionY);
+    window.requestAnimationFrame(gameLoop)
 }
 }
 

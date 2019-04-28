@@ -179,7 +179,7 @@ const signUpSuccess = function (data) {
 
 const unLoad = function () {
   return $.ajax({
-    url: config.apiUrl + `/characters/${store.character.id}`,
+    url: config.apiUrl + `/characters/${window.id}`,
     async: false,
     method: 'PATCH',
     headers: {
