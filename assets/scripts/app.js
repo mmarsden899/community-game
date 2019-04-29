@@ -34,6 +34,7 @@ let frameCount = 0
 window.positionX = 0
 window.positionY = 0
 window.user_name = ''
+window.currentPlaying = false
 let img = new Image()
 
 store.userCharacter = {}
@@ -44,12 +45,12 @@ test.onGetMessages()
 
 window.addEventListener('keydown', keyDownListener)
 function keyDownListener (event) {
-    keyPresses[event.key] = true
+  keyPresses[event.key] = true
 }
 
 window.addEventListener('keyup', keyUpListener)
 function keyUpListener (event) {
-    keyPresses[event.key] = false
+  keyPresses[event.key] = false
 }
 
 function loadImage () {
@@ -65,70 +66,75 @@ const showMessageOnRender = function () {
   for (let i = 0; i < store.allMessages.messages.length; i++) {
     if (store.allMessages.messages[i].user_id === store.user.id &&
       moment(store.allMessages.messages[i].created_at).add(30, 'seconds').format('MMMM Do YYYY, hh:mm:ss a') >=
-      (moment().format('MMMM Do YYYY, hh:mm:ss'))) {
-       ctx.fillText(store.allMessages.messages[i].text, window.positionX + 21.5, window.positionY - 20)
+      (moment().format('MMMM Do YYYY, hh:mm:ss a'))) {
+      //  if (store.allMessages.messages[i].text.length > 15) {
+      //    ctx.fillText(store.allMessages.messages[i].text.split('', 15), window.positionX + 21.5, window.positionY - 30)
+      //    ctx.fillText(store.allMessages.messages[i].text.substr(store.allMessages.messages[i].text.length - (store.allMessages.messages[i].text.length - 15)), window.positionX + 21.5, window.positionY - 20)
+      // }
+      ctx.fillText(store.allMessages.messages[i].text, window.positionX + 21.5, window.positionY - 20)
     } else {
       ctx.fillText(' ', window.positionX + 21.5, window.positionY - 20)
     }
   }
 }
 
-const showCharactersMessages = function () {
-  for (let i = 0; i < store.allMessages.messages.length; i++) {
-    if (store.allMessages.messages[i].user_id === store.otherCharacters.characters[key].id &&
-      moment(store.allMessages.messages[i].created_at).add(30, 'seconds').format('MMMM Do YYYY, hh:mm:ss a') >=
-      (moment().format('MMMM Do YYYY, hh:mm:ss'))) {
-       ctx.fillText(store.allMessages.messages[i].text, window.positionX + 21.5, window.positionY - 20)
-    } else {
-      ctx.fillText(' ', window.positionX + 21.5, window.positionY - 20)
-    }
-  }
-}
 
 
 function drawFrame (frameX, frameY, canvasX, canvasY) {
   ctx.drawImage(img,
-                frameX * WIDTH, frameY * HEIGHT, WIDTH, HEIGHT,
-                canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
+    frameX * WIDTH, frameY * HEIGHT, WIDTH, HEIGHT,
+    canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
 }
 
-loadImage();
+const setCurrentPlaying = function () {
+  window.currentPlaying = false
+}
 
-function gameLoop() {
+loadImage()
+
+function gameLoop () {
 //  console.log(positionX, positionY)
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  let hasMoved = false;
+  let hasMoved = false
 
   if (keyPresses.w) {
-    moveCharacter(0, -MOVEMENT_SPEED, FACING_UP);
-    hasMoved = true;
+    moveCharacter(0, -MOVEMENT_SPEED, FACING_UP)
+    hasMoved = true
   } else if (keyPresses.s) {
-    moveCharacter(0, MOVEMENT_SPEED, FACING_DOWN);
-    hasMoved = true;
+    moveCharacter(0, MOVEMENT_SPEED, FACING_DOWN)
+    hasMoved = true
   }
 
   if (keyPresses.a) {
-    moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT);
-    hasMoved = true;
+    moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT)
+    hasMoved = true
   } else if (keyPresses.d) {
-    moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT);
-    hasMoved = true;
+    moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT)
+    hasMoved = true
   }
+
+  // if (keyPresses.m) {
+  //   if (window.currentPlaying === true) {
+  //     $('.modal').show()
+  //   } else {
+  //     $('.modal').hide()
+  //   }
+  // }
 
   if (hasMoved) {
     frameCount++
     if (frameCount >= FRAME_LIMIT) {
-      frameCount = 0;
-      currentLoopIndex++;
+      frameCount = 0
+      currentLoopIndex++
       if (currentLoopIndex >= CYCLE_LOOP.length) {
-        currentLoopIndex = 0;
+        currentLoopIndex = 0
       }
     }
   }
 
   if (!hasMoved) {
-    currentLoopIndex = 0;
+    currentLoopIndex = 0
   }
 
   if (window.charCreated === true) {
@@ -138,36 +144,54 @@ function gameLoop() {
       (store.otherCharacters.characters[key].id !== window.id)) {
         for (let i = 0; i < store.allMessages.messages.length; i++) {
           if (store.allMessages.messages[i].user_id === store.otherCharacters.characters[key].id &&
-            moment(store.allMessages.messages[i].created_at).add(30, 'seconds').format('MMMM Do YYYY, hh:mm:ss a') >=
+            moment(store.allMessages.messages[i].created_at).add(20, 'seconds').format('MMMM Do YYYY, hh:mm:ss a') >=
             (moment().format('MMMM Do YYYY, hh:mm:ss'))) {
-            ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
+            if (store.allMessages.messages[i].text.length > 15) {
+              ctx.fillText(store.allMessages.messages[i].text.split('', 15), store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 30)
+              ctx.fillText(store.allMessages.messages[i].text.subst(store.allMessages.messages[i].text.length - (store.allMessages.messages[i].text.length - 15)), store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
+            } else {
+              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
+            }
           }
         }
         ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 10)
         drawFrame(CYCLE_LOOP[0], FACING_DOWN, store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
-}
-}
-)
+      }
+    }
+    )
     showMessageOnRender()
-    drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, window.positionX, window.positionY);
+    drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, window.positionX, window.positionY)
     window.requestAnimationFrame(gameLoop)
 }
 }
 
 function moveCharacter (deltaX, deltaY, direction) {
   if (window.positionX + deltaX > 0 && window.positionX + SCALED_WIDTH + deltaX < canvas.width) {
-    window.positionX += deltaX;
+    window.positionX += deltaX
   }
   if (window.positionY + deltaY > 0 && window.positionY + SCALED_HEIGHT + deltaY < canvas.height && ((window.positionY < 35 || window.positionX > 35) || (window.positionY > 150 || window.positionX > 35))) {
-    window.positionY += deltaY;
+    window.positionY += deltaY
   }
-  currentDirection = direction;
+  currentDirection = direction
 }
 
 $(() => {
+  $('.modal').show()
+  $('#accounts-page').hide()
+  $('#changepass').hide()
+  $('#alreadyplayed').hide()
+  $('#alreadyplayed').on('click', test.playedToPlay)
+  $('#back-to-login').on('click', test.backToLogin)
+  $('#loginToSignUp').on('click', test.loginSignUp)
+  $('#passtoAccount').on('click', test.passToAccount)
+  $('#logout').on('click', test.onLogOut)
+  $('#change-password-form').on('submit', test.onChangePass)
+  $('#change-password').on('click', test.toChangePass)
+  $('#signUpForm').hide()
   $('#create-character').hide()
   $('#create-character').on('click', test.onCreateCharacter)
   $('#sign-in').on('submit', test.onSignIn)
+  $('#play').on('click', test.hideModal)
   $('#play').on('click', gameLoop)
   $('#play').on('click', test.onUpdateCharacter)
   $('#sign-in').on('submit', test.onGetMessages)
@@ -180,5 +204,5 @@ $(() => {
 
 
 module.exports = {
-  characterSprites,
+  characterSprites
 }

@@ -2,11 +2,11 @@ const config = require('./config')
 const store = require('./store')
 const getFormFields = require('./../../lib/get-form-fields')
 const app = require('./app')
-const showMessagesTemplate = require('./templates/message-listing.handlebars')
+const userNames = require('./user-names')
+
+
 
 window.charCreated = false
-
-const names = ['Bob', 'Greg', 'Joe', 'Essel']
 
 const getCharacters = function () {
   return $.ajax({
@@ -49,7 +49,7 @@ const createCharacter = function (data) {
     data: {
       'character': {
         'user_id': store.user.id,
-        'user_name': names[Math.floor(Math.random() * names.length)],
+        'user_name': `${userNames.adj[Math.floor(Math.random() * userNames.adj.length)]}${userNames.noun[Math.floor(Math.random() * userNames.noun.length)]}`,
         'x': 250,
         'y': 200
       }
@@ -66,18 +66,18 @@ const onCreateCharacter = function () {
 const createCharacterSuccess = function (data) {
   store.userCharacter = data
   window.charCreated = true
-  console.log('window character created is ' + window.charCreated)
+  // console.log('window character created is ' + window.charCreated)
   window.positionX = store.userCharacter.character.x
   window.positionY = store.userCharacter.character.y
   window.user_name = store.userCharacter.character.user_name
   window.id = store.userCharacter.character.id
-  console.log('character success with ' + store.userCharacter.character.x)
-  console.log('character app positionX is ' + app.positionX)
-  console.log(store.userCharacter.character.user_name)
+  // console.log('character success with ' + store.userCharacter.character.x)
+  // console.log('character app positionX is ' + app.positionX)
+  // console.log(store.userCharacter.character.user_name)
 }
 
 const createCharacterFailure = function (data) {
-  console.log('failed with data ' + JSON.stringify(data))
+  // console.log('failed with data ' + JSON.stringify(data))
 }
 
 const updateCharacter = function () {
@@ -99,7 +99,7 @@ const updateCharacter = function () {
 
 
 const onUpdateCharacter = function () {
-  console.log('is update character firing?')
+//  console.log('is update character firing?')
   updateCharacter()
     .then(updateCharacterSuccess)
     .catch(updateCharacterFailure)
@@ -113,22 +113,22 @@ const onUpdateCharacterOnce = function () {
 }
 
 const isCharCreatedTrue = function () {
-  console.log('is char created true firing?')
+//  console.log('is char created true firing?')
   if (window.charCreated === true) {
     onUpdateCharacter()
-    console.log('this should be working charcreated')
+  //  console.log('this should be working charcreated')
   } else {
-    console.log('window CharCreated isnt true')
+  //  console.log('window CharCreated isnt true')
     setTimeout(isCharCreatedTrue, 500)
   }
 }
 
 const updateCharacterSuccess = function (data) {
-  console.log('update character success with' + data)
+//  console.log('update character success with' + data)
 }
 
 const updateCharacterFailure = function (data) {
-  console.log('update character failure with ' + JSON.stringify(data))
+//  console.log('update character failure with ' + JSON.stringify(data))
 }
 
 
@@ -150,6 +150,8 @@ const onSignIn = function (event) {
 }
 
 const signInSuccess = function (data) {
+  $('#accounts-page').show()
+  $('#loginForms').hide()
   store.user = data.user
   canCreateCharacter()
   window.charCreated = true
@@ -201,23 +203,23 @@ const canCreateCharacter = function () {
   }
   if (userIDArray.some(function (index) { return index === store.user.id })) {
     window.userIDIndex = userIDArray.findIndex(function (index) { return index === store.user.id })
-    console.log('=======================================================')
+//    console.log('=======================================================')
     window.positionX = store.otherCharacters.characters[window.userIDIndex].x
     window.positionY = store.otherCharacters.characters[window.userIDIndex].y
     window.user_name = store.otherCharacters.characters[window.userIDIndex].user_name
     window.id = store.otherCharacters.characters[window.userIDIndex].id
-    console.log('heyyyyyyyyyyyyy this works')
+//    console.log('heyyyyyyyyyyyyy this works')
   } else {
-    console.log('this shouldnt be working')
+//    console.log('this shouldnt be working')
     $('#create-character').show()
   }
 }
 
 const getMessageSuccess = (data) => {
-  console.log('================================================')
-  console.log(data)
+  // console.log('================================================')
+  // console.log(data)
   store.allMessages = data
-  console.log('store allmessages is showing as' + store.allMessages.messages[1].text)
+//  console.log('store allmessages is showing as' + store.allMessages.messages[1].text)
 }
 
 const onGetMessages = (event) => {
@@ -240,8 +242,6 @@ const getMessages = function () {
 const onSendText = function (event) {
   event.preventDefault()
   const data = $('#text-input').val()
-  console.log(data)
-  console.log('===================')
   sendText(data)
     .then('on send text success')
     .catch('on send text fialure')
@@ -281,6 +281,92 @@ const onDestroyCharacter = function (event) {
     .catch(console.log('characterdidnotdestroy'))
 }
 
+const hideModal = function () {
+  $('.modal').hide()
+  $('#play').hide()
+  $('#alreadyplayed').show()
+  window.currentPlaying = true
+}
+
+const loginSignUp = function () {
+  $('#loginForms').hide()
+  $('#signUpForm').show()
+}
+
+const backToLogin = function () {
+  $('#signUpForm').hide()
+  $('#loginForms').show()
+}
+
+const logOut = function () {
+  return $.ajax({
+    url: config.apiUrl + '/sign-out',
+    method: 'DELETE',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+})
+}
+
+const logoutSuccess = function () {
+  $('#accounts-page').hide()
+  $('#loginForms').show()
+}
+
+const logoutFailure = function () {
+  console.log('================')
+  console.log('log out failed!')
+}
+
+const onLogOut = function () {
+  logOut()
+    .then(logoutSuccess)
+    .catch(logoutFailure)
+}
+
+const toChangePass = function () {
+  $('#accounts-page').hide()
+  $('#changepass').show()
+}
+
+const onChangePass = function (event) {
+  event.preventDefault()
+  const data = getFormFields(event.target)
+  changePass(data)
+    .then(onChangePassSuccess)
+    .catch(onChangePassFailure)
+}
+
+const onChangePassSuccess = function (data) {
+  $('#changepass').hide()
+  $('#accounts-page').show()
+}
+
+const onChangePassFailure = function () {
+  console.log('==================')
+  console.log('hey onchangepass is failing')
+}
+
+const changePass = function (data) {
+  return $.ajax({
+    url: config.apiUrl + '/change-password',
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    },
+    data
+})
+}
+
+const passToAccount = function () {
+  $('#changepass').hide()
+  $('#accounts-page').show()
+}
+
+const playedToPlay = function () {
+  $('.modal').hide()
+}
+
 module.exports = {
   getCharacters,
   onGetCharacters,
@@ -302,5 +388,13 @@ module.exports = {
   getMessageSuccess,
   onSendText,
   onDestroyCharacter,
-  destroyCharacter
+  destroyCharacter,
+  hideModal,
+  loginSignUp,
+  backToLogin,
+  onLogOut,
+  toChangePass,
+  onChangePass,
+  passToAccount,
+  playedToPlay
 }

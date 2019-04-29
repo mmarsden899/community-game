@@ -3,6 +3,7 @@
     <head>
       <title>Community the Game</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
       <!-- Do not add `link` tags-->
       <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
@@ -13,33 +14,55 @@
     </head>
     <body>
       <h1>Community the Game</h1>
-      <div id="loginForms">
-        <form id="sign-in" name="signIn">
+      <div class="modal">
+      <div id="loginForms" class="login-form">
+        <form id="sign-in" name="sign-in" class="sign-in">
       <input type="email" name="credentials[email]" placeholder="Email" class="sign-in-form" autocomplete="email username">
       <input type="password" name="credentials[password]" placeholder="Password" class="sign-in-form" autocomplete="password">
       <p id="signInError" class="signInError"></p>
       <input type="submit" value="Sign In!" class="sign-in-button submit-button">
     </form>
+    <button id="loginToSignUp" class="login-to-signup">Sign up</button>
   </div>
-  <div id="signUpForm">
-<form id="sign-up">
-<input type="text" name="credentials[email]" placeholder="Email" class="sign-up-form" autocomplete="email username">
-<input type="password" name="credentials[password]" placeholder="Password" class="sign-up-form" autocomplete="password">
-<input type="password" name="credentials[password_confirmation]" placeholder="Password Confirmation" class="sign-up-form" autocomplete="password">
-<input type="submit" value="Sign Up!" class="signUpButton submit-button">
-</form>
-</div>
+  <div id="signUpForm" class="sign-up-form">
+    <form id="sign-up" class="sign-up">
+      <input type="text" name="credentials[email]" placeholder="Email" class="sign-up-form" autocomplete="email username">
+      <input type="password" name="credentials[password]" placeholder="Password" class="sign-up-form" autocomplete="password">
+      <input type="password" name="credentials[password_confirmation]" placeholder="Password Confirmation" class="sign-up-form" autocomplete="password">
+      <input type="submit" value="Sign Up!" class="signUpButton submit-button">
+    </form>
+    <button id="back-to-login">Back to Login</button>
+  </div>
+  <div id="accounts-page" class="accounts-page">
+  <button id="create-character">Create Character</button>
   <button id="play">Play</button>
-  <button id="updatechar">Update</button>
-  <button id="destroychar">Destory</button>
+  <button id="alreadyplayed">Play</button>
+  <button id="change-password">Change Password</button>
+  <button id="see-character">View Character</button>
+  <button id="destroychar">Delete Character</button>
+  <button id=logout>Log Out</button>
+</div>
+<div id="changepass">
+<form id="change-password-form" class="passwordForm">
+  <input type="password" name="passwords[old]" placeholder="old password" class="passinput">
+  <input type="password" name="passwords[new]" placeholder="new password" class="passinput">
+  <p id="changePassError" class="signInError"> </p>
+  <input type="submit" id="changePasswordButton" class="changePassSub">
+</form>
+<button id="passtoAccount" class="changePassSub">Account</button>
+</div>
+</div>
   <canvas width="1000" height="400"></canvas>
   <div id="chat" class="chat">
-    <div id="chat-content"></div>
     <form id="text-submit">
-    <input type="text" id="text-input" class="chat-text">
+    <input type="text" id="text-input" class="chat-text" maxlength="30">
     <input type='submit' id='submit-text-button'>
         </form>
       </div>
-      <button id="create-character">Create Character</button>
+
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
     </body>
 </html>
