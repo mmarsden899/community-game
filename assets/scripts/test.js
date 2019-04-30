@@ -21,7 +21,7 @@ const onGetCharacters = function () {
   getCharacters()
     .then(showCharacterSuccess)
     .catch(showCharacterFailure)
-  setTimeout(onGetCharacters, 500)
+  setTimeout(onGetCharacters, 250)
 }
 const showCharacterFailure = function (data) {
 }
@@ -90,6 +90,7 @@ const updateCharacter = function () {
         'x': window.positionX,
         'y': window.positionY,
         'direction': window.currentDirection[1],
+        'moving': window.hasMoved,
         'active': true
       }
     }
@@ -102,7 +103,7 @@ const onUpdateCharacter = function () {
   updateCharacter()
     .then(updateCharacterSuccess)
     .catch(updateCharacterFailure)
-  setTimeout(onUpdateCharacter, 500)
+  setTimeout(onUpdateCharacter, 250)
 }
 
 const onUpdateCharacterOnce = function () {

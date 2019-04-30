@@ -16,6 +16,7 @@ const HEIGHT = 60
 const SCALED_WIDTH = SCALE * WIDTH
 const SCALED_HEIGHT = SCALE * HEIGHT
 const CYCLE_LOOP = [0, 1, 0, 2]
+const OTHER_CYCLE_LOOP = [0, 1, 0, 2]
 const FACING_DOWN = 0
 const FACING_UP = 1
 const FACING_LEFT = 2
@@ -31,6 +32,7 @@ ctx.font = '15px Oxygen Mono'
 let keyPresses = {}
 window.currentDirection = [FACING_DOWN, 'FACING_DOWN']
 let currentLoopIndex = 0
+let otherCurrentLoopIndex = 0
 let frameCount = 0
 window.positionX = 0
 window.positionY = 0
@@ -129,25 +131,25 @@ function gameLoop () {
 //  console.log(currentDirection[1])
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-  let hasMoved = false
+  window.hasMoved = false
 
   if (keyPresses.w) {
     moveCharacter(0, -MOVEMENT_SPEED, FACING_UP, 'FACING_UP')
-    hasMoved = true
+    window.hasMoved = true
   } else if (keyPresses.s) {
     moveCharacter(0, MOVEMENT_SPEED, FACING_DOWN, 'FACING_DOWN')
-    hasMoved = true
+    window.hasMoved = true
   }
 
   if (keyPresses.a) {
     moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT, 'FACING_LEFT')
-    hasMoved = true
+    window.hasMoved = true
   } else if (keyPresses.d) {
     moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT, 'FACING_RIGHT')
-    hasMoved = true
+    window.hasMoved = true
   }
 
-  if (hasMoved) {
+  if (window.hasMoved) {
     frameCount++
     if (frameCount >= FRAME_LIMIT) {
       frameCount = 0
@@ -158,7 +160,7 @@ function gameLoop () {
     }
   }
 
-  if (!hasMoved) {
+  if (!window.hasMoved) {
     currentLoopIndex = 0
   }
 
@@ -187,8 +189,16 @@ function gameLoop () {
             }
           }
         }
+        if (store.otherCharacters.characters[key].moving === true) {
+          otherCurrentLoopIndex++
+          if (otherCurrentLoopIndex >= OTHER_CYCLE_LOOP.length) {
+            otherCurrentLoopIndex = 0
+          }
+        } else {
+          otherCurrentLoopIndex = 0
+        }
         ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length * 7 / 2), store.otherCharacters.characters[key].y - 10)
-        drawFrame(CYCLE_LOOP[0], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
+        drawFrame(OTHER_CYCLE_LOOP[otherCurrentLoopIndex], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
       }
     }
     )
