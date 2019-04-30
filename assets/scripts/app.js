@@ -219,13 +219,13 @@ function gameLoop () {
         } else {
           otherCurrentLoopIndex = 0
         }
-        ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length * 7 / 2), store.otherCharacters.characters[key].y - 10)
+        ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length * 1.75), store.otherCharacters.characters[key].y - 10)
         drawFrame(store.otherCharacters.characters[key].spritesheet, OTHER_CYCLE_LOOP[otherCurrentLoopIndex], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
       }
     }
     )
     showMessageOnRender()
-    ctx.fillText(window.user_name, window.positionX + (window.user_name.length * 7 / 2), window.positionY - 10)
+    ctx.fillText(window.user_name, window.positionX - (window.user_name.length * 1.75), window.positionY - 10)
     drawFrame(window.sprite, CYCLE_LOOP[currentLoopIndex], window.currentDirection[0], window.positionX, window.positionY)
     window.requestAnimationFrame(gameLoop)
 }

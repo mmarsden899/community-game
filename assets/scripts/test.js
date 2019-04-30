@@ -50,7 +50,7 @@ const createCharacter = function (data) {
         'user_name': `${userNames.adj[Math.floor(Math.random() * userNames.adj.length)]}${userNames.noun[Math.floor(Math.random() * userNames.noun.length)]}`,
         'x': 250,
         'y': 200,
-        'spritesheet': Math.floor(Math.random() * 3)
+        'spritesheet': (Math.floor(Math.random() * 3))
       }
     }
   })
