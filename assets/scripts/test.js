@@ -89,6 +89,7 @@ const updateCharacter = function () {
       'character': {
         'x': window.positionX,
         'y': window.positionY,
+        'direction': window.currentDirection[1],
         'active': true
       }
     }

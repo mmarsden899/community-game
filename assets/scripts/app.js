@@ -29,7 +29,7 @@ let canvas = document.querySelector('canvas')
 let ctx = canvas.getContext('2d')
 ctx.font = '15px Oxygen Mono'
 let keyPresses = {}
-let currentDirection = FACING_DOWN
+window.currentDirection = [FACING_DOWN, 'FACING_DOWN']
 let currentLoopIndex = 0
 let frameCount = 0
 window.positionX = 0
@@ -46,6 +46,21 @@ test.onGetMessages()
 let speech = new Image()
 let speech2 = new Image()
 let speech3 = new Image()
+
+let otherUser
+
+const directionMethod = function (charDirect) {
+  if (charDirect === 'FACING_UP') {
+    otherUser = FACING_UP
+  } else if (charDirect === 'FACING_DOWN') {
+    otherUser = FACING_DOWN
+  } else if (charDirect === 'FACING_RIGHT') {
+    otherUser = FACING_RIGHT
+  } else {
+    otherUser = FACING_LEFT
+  }
+  return otherUser
+}
 
 window.addEventListener('keydown', keyDownListener)
 function keyDownListener (event) {
@@ -88,14 +103,14 @@ const showMessageOnRender = function () {
         ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 31)
       } else if (store.allMessages.messages[i].text.length > 10) {
         ctx.drawImage(speech2, window.positionX - 55, window.positionY - 50)
-        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 0.5 + 24), window.positionY - 30)
+        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 30)
       } else if (store.allMessages.messages[i].text.length > 0) {
         ctx.drawImage(speech3, window.positionX - 25, window.positionY - 50)
-        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 0.5 + 24), window.positionY - 30)
+        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 30)
       } else {
         ctx.fillText(' ', window.positionX + 21.5, window.positionY - 20)
+      }
     }
-  }
 }
 }
 
@@ -111,23 +126,24 @@ function drawFrame (frameX, frameY, canvasX, canvasY) {
 loadImage()
 
 function gameLoop () {
+//  console.log(currentDirection[1])
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   let hasMoved = false
 
   if (keyPresses.w) {
-    moveCharacter(0, -MOVEMENT_SPEED, FACING_UP)
+    moveCharacter(0, -MOVEMENT_SPEED, FACING_UP, 'FACING_UP')
     hasMoved = true
   } else if (keyPresses.s) {
-    moveCharacter(0, MOVEMENT_SPEED, FACING_DOWN)
+    moveCharacter(0, MOVEMENT_SPEED, FACING_DOWN, 'FACING_DOWN')
     hasMoved = true
   }
 
   if (keyPresses.a) {
-    moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT)
+    moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT, 'FACING_LEFT')
     hasMoved = true
   } else if (keyPresses.d) {
-    moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT)
+    moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT, 'FACING_RIGHT')
     hasMoved = true
   }
 
@@ -151,12 +167,18 @@ function gameLoop () {
       if ((store.otherCharacters.characters[key].active === true) &&
       (store.otherCharacters.characters[key].id !== window.id)) {
         for (let i = 0; i < store.allMessages.messages.length; i++) {
-          if (store.allMessages.messages[i].user_id === store.otherCharacters.characters[key].id &&
+          if (store.allMessages.messages[i].user_id === store.otherCharacters.characters[key].user_id &&
             moment(store.allMessages.messages[i].created_at).add(10, 'seconds').format() >=
             (moment().format())) {
             if (store.allMessages.messages[i].text.length > 20) {
-              ctx.drawImage(speech, window.positionX - 80, window.positionY - 50)
+              ctx.drawImage(speech, store.otherCharacters.characters[key].x - 80, store.otherCharacters.characters[key].y - 50)
               // ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 31)
+              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 2.45), store.otherCharacters.characters[key].y - 31)
+            } else if (store.allMessages.messages[i].text.length > 10) {
+              ctx.drawImage(speech2, store.otherCharacters.characters[key].x - 55, store.otherCharacters.characters[key].y - 50)
+              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 2.45), store.otherCharacters.characters[key].y - 31)
+            } else if (store.allMessages.messages[i].text.length > 0) {
+              ctx.drawImage(speech3, store.otherCharacters.characters[key].x - 25, store.otherCharacters.characters[key].y - 50)
               ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 2.45), store.otherCharacters.characters[key].y - 31)
             } else {
               (console.log('are we getting to else?'))
@@ -166,25 +188,26 @@ function gameLoop () {
           }
         }
         ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length * 7 / 2), store.otherCharacters.characters[key].y - 10)
-        drawFrame(CYCLE_LOOP[0], FACING_DOWN, store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
+        drawFrame(CYCLE_LOOP[0], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
       }
     }
     )
     showMessageOnRender()
     ctx.fillText(window.user_name, window.positionX + (window.user_name.length * 7 / 2), window.positionY - 10)
-    drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, window.positionX, window.positionY)
+    drawFrame(CYCLE_LOOP[currentLoopIndex], window.currentDirection[0], window.positionX, window.positionY)
     window.requestAnimationFrame(gameLoop)
 }
 }
 
-function moveCharacter (deltaX, deltaY, direction) {
+function moveCharacter (deltaX, deltaY, direction, stringDirection) {
   if (window.positionX + deltaX > 0 && window.positionX + SCALED_WIDTH + deltaX < canvas.width) {
     window.positionX += deltaX
   }
   if (window.positionY + deltaY > 0 && window.positionY + SCALED_HEIGHT + deltaY < canvas.height && ((window.positionY < 35 || window.positionX > 35) || (window.positionY > 150 || window.positionX > 35))) {
     window.positionY += deltaY
   }
-  currentDirection = direction
+  window.currentDirection[0] = direction
+  window.currentDirection[1] = stringDirection
 }
 
 $(() => {
