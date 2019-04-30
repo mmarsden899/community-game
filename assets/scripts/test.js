@@ -49,7 +49,8 @@ const createCharacter = function (data) {
         'user_id': store.user.id,
         'user_name': `${userNames.adj[Math.floor(Math.random() * userNames.adj.length)]}${userNames.noun[Math.floor(Math.random() * userNames.noun.length)]}`,
         'x': 250,
-        'y': 200
+        'y': 200,
+        'spritesheet': Math.floor(Math.random() * 3)
       }
     }
   })
@@ -69,6 +70,9 @@ const createCharacterSuccess = function (data) {
   window.positionY = store.userCharacter.character.y
   window.user_name = store.userCharacter.character.user_name
   window.id = store.userCharacter.character.id
+  $('#create-character').hide()
+  $('#destroychar').show()
+  $('#play').show()
   // console.log('character success with ' + store.userCharacter.character.x)
   // console.log('character app positionX is ' + app.positionX)
   // console.log(store.userCharacter.character.user_name)
@@ -146,15 +150,22 @@ const onSignIn = function (event) {
   const data = getFormFields(event.target)
   signIn(data)
     .then(signInSuccess)
-    .catch()
+    .catch(signInError)
 }
 
 const signInSuccess = function (data) {
   $('#accounts-page').show()
   $('#loginForms').hide()
+  $('#signInError').text(' ')
+  $('form').trigger('reset')
   store.user = data.user
   canCreateCharacter()
   window.charCreated = true
+}
+
+const signInError = function () {
+  $('form').trigger('reset')
+  $('#signInError').text('Sign in error. Please try again')
 }
 
 const signUp = function (data) {
@@ -170,11 +181,20 @@ const onSignUp = function (event) {
   const data = getFormFields(event.target)
   signUp(data)
     .then(signUpSuccess)
-    .catch()
+    .catch(signUpFailure)
 }
 
 
 const signUpSuccess = function (data) {
+  $('#loginForms').show()
+  $('#signUpForm').hide()
+  $('form').trigger('reset')
+  $('#signInError').text('Sign-up success')
+}
+
+const signUpFailure = function () {
+  $('form').trigger('reset')
+  $('#signUpError').text('Sign-up failed. Please try again.')
 }
 
 const unLoad = function () {
@@ -204,19 +224,17 @@ const canCreateCharacter = function () {
     window.positionX = store.otherCharacters.characters[window.userIDIndex].x
     window.positionY = store.otherCharacters.characters[window.userIDIndex].y
     window.user_name = store.otherCharacters.characters[window.userIDIndex].user_name
+    window.sprite = store.otherCharacters.characters[window.userIDIndex].spritesheet
     window.id = store.otherCharacters.characters[window.userIDIndex].id
-//    console.log('heyyyyyyyyyyyyy this works')
   } else {
-//    console.log('this shouldnt be working')
+    $('#play').hide()
     $('#create-character').show()
+    $('#destroychar').hide()
   }
 }
 
 const getMessageSuccess = (data) => {
-  // console.log('================================================')
-  // console.log(data)
   store.allMessages = data
-//  console.log('store allmessages is showing as' + store.allMessages.messages[1].text)
 }
 
 const onGetMessages = (event) => {
@@ -238,6 +256,7 @@ const getMessages = function () {
 const onSendText = function (event) {
   event.preventDefault()
   const data = $('#text-input').val()
+  $('form').trigger('reset')
   sendText(data)
     .then('on send text success')
     .catch('on send text fialure')
@@ -273,7 +292,7 @@ const destroyCharacter = function () {
 const onDestroyCharacter = function (event) {
   event.preventDefault()
   destroyCharacter()
-    .then()
+    .then(canCreateCharacter, $('#destroychar').hide(), $('#create-character').show())
     .catch()
 }
 
@@ -366,7 +385,11 @@ const playToAccount = function () {
 
 const onViewCharacter = function () {
   $('#accounts-page').hide()
+}
 
+const onTicTac = function () {
+  $('#accounts-page').hide()
+  $('#tictactoe').show()
 }
 
 module.exports = {
@@ -399,5 +422,6 @@ module.exports = {
   onChangePass,
   passToAccount,
   playedToPlay,
-  playToAccount
+  playToAccount,
+  onTicTac
 }

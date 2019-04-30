@@ -22,9 +22,9 @@ const FACING_UP = 1
 const FACING_LEFT = 2
 const FACING_RIGHT = 3
 const FRAME_LIMIT = 12
-const MOVEMENT_SPEED = 1
+const MOVEMENT_SPEED = 1.75
 
-const characterSprites = ['https://i.imgur.com/UXlqiz6.png', 'https://i.imgur.com/NFU0D5v.png']
+const characterSprites = ['https://i.imgur.com/UXlqiz6.png', 'https://i.imgur.com/NFU0D5v.png', 'https://i.imgur.com/cQf38Yp.png']
 
 let canvas = document.querySelector('canvas')
 let ctx = canvas.getContext('2d')
@@ -39,6 +39,8 @@ window.positionY = 0
 window.user_name = ''
 window.currentPlaying = false
 let img = new Image()
+let img2 = new Image()
+let img3 = new Image()
 
 store.userCharacter = {}
 store.userCharacter.character = 0
@@ -63,6 +65,17 @@ const directionMethod = function (charDirect) {
   }
   return otherUser
 }
+let value
+const imgWhich = function (num) {
+  if (num === '3') {
+    value = img3
+  } else if (num === '2') {
+    value = img2
+  } else {
+    value = img
+  }
+  return value
+}
 
 window.addEventListener('keydown', keyDownListener)
 function keyDownListener (event) {
@@ -77,6 +90,16 @@ function keyUpListener (event) {
 function loadImage () {
   img.src = 'https://i.imgur.com/UXlqiz6.png'
   img.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+
+  img2.src = 'https://i.imgur.com/NFU0D5v.png'
+  img2.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+
+  img3.src = 'https://i.imgur.com/cQf38Yp.png'
+  img3.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
   speech.src = 'https://i.imgur.com/wa090e7.png'
@@ -118,12 +141,11 @@ const showMessageOnRender = function () {
 
 
 
-function drawFrame (frameX, frameY, canvasX, canvasY) {
-  ctx.drawImage(img,
+function drawFrame (num, frameX, frameY, canvasX, canvasY) {
+  ctx.drawImage(imgWhich(num),
     frameX * WIDTH, frameY * HEIGHT, WIDTH, HEIGHT,
-    canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
+    canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT)
 }
-
 
 loadImage()
 
@@ -198,22 +220,22 @@ function gameLoop () {
           otherCurrentLoopIndex = 0
         }
         ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length * 7 / 2), store.otherCharacters.characters[key].y - 10)
-        drawFrame(OTHER_CYCLE_LOOP[otherCurrentLoopIndex], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
+        drawFrame(store.otherCharacters.characters[key].spritesheet, OTHER_CYCLE_LOOP[otherCurrentLoopIndex], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
       }
     }
     )
     showMessageOnRender()
     ctx.fillText(window.user_name, window.positionX + (window.user_name.length * 7 / 2), window.positionY - 10)
-    drawFrame(CYCLE_LOOP[currentLoopIndex], window.currentDirection[0], window.positionX, window.positionY)
+    drawFrame(window.sprite, CYCLE_LOOP[currentLoopIndex], window.currentDirection[0], window.positionX, window.positionY)
     window.requestAnimationFrame(gameLoop)
 }
 }
 
 function moveCharacter (deltaX, deltaY, direction, stringDirection) {
-  if (window.positionX + deltaX > 0 && window.positionX + SCALED_WIDTH + deltaX < canvas.width) {
+  if (window.positionX + deltaX > 0 && window.positionX + SCALED_WIDTH + deltaX < canvas.width && ((window.positionX + deltaX <= 345 || window.positionY + deltaY >= 150) || (window.positionX + deltaX >= 665 || window.positionY + deltaY >= 150))) {
     window.positionX += deltaX
   }
-  if (window.positionY + deltaY > 0 && window.positionY + SCALED_HEIGHT + deltaY < canvas.height && ((window.positionY < 35 || window.positionX > 35) || (window.positionY > 150 || window.positionX > 35))) {
+  if (window.positionY + deltaY > 90 && window.positionY + SCALED_HEIGHT + deltaY < canvas.height && ((window.positionX + deltaX <= 345 || window.positionY + deltaY >= 150) || (window.positionX + deltaX >= 665 || window.positionY + deltaY >= 150))) {
     window.positionY += deltaY
   }
   window.currentDirection[0] = direction
@@ -221,6 +243,7 @@ function moveCharacter (deltaX, deltaY, direction, stringDirection) {
 }
 
 $(() => {
+  $('#tictactoe').hide()
   $('.modal').show()
   $('#accounts-page').hide()
   $('#changepass').hide()
@@ -246,6 +269,7 @@ $(() => {
   $('#sign-up').on('submit', test.onSignUp)
   $('#text-submit').on('submit', test.onSendText)
   $('#destroychar').on('click', test.onDestroyCharacter)
+  $('#tictac').on('click', test.onTicTac)
   $(window).on('unload', test.unLoad)
 })
 

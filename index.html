@@ -29,18 +29,21 @@
       <input type="text" name="credentials[email]" placeholder="Email" class="sign-up-form" autocomplete="email username">
       <input type="password" name="credentials[password]" placeholder="Password" class="sign-up-form" autocomplete="password">
       <input type="password" name="credentials[password_confirmation]" placeholder="Password Confirmation" class="sign-up-form" autocomplete="password">
+      <p id="signUpError" class="signUpError"></p>
       <input type="submit" value="Sign Up!" class="signUpButton submit-button">
     </form>
     <button id="back-to-login">Back to Login</button>
   </div>
   <div id="accounts-page" class="accounts-page">
-  <button id="create-character" class="account-button">Create Character</button>
+    <p id="accountError" class="accountError"></p>
   <button id="play" class="account-button">Play</button>
   <button id="alreadyplayed" class="account-button">Play</button>
   <button id="change-password" class="account-button">Change Password</button>
   <button id="see-character" class="account-button">View Character</button>
+  <button id="create-character" class="account-button">Create Character</button>
   <button id="destroychar" class="account-button">Delete Character</button>
   <button id="logout" class="account-button">Log Out</button>
+  <button id="tictac" class="tictac">Tic-Tac-Toe</button>
 </div>
 <div id="changepass">
 <form id="change-password-form" class="passwordForm">
@@ -50,6 +53,9 @@
   <input type="submit" id="changePasswordButton" class="changePassSub submit-button">
 </form>
 <button id="passtoAccount" class="changePassSub">Account</button>
+</div>
+<div id="tictactoe" class="tictactoe">
+  <iframe src="https://mmarsden89.github.io/tic-tac-toe-client/" width="1024" height="576" allowfullscreen="allowfullscreen"></iframe>
 </div>
 </div>
 <span style="font-family: 'Oxygen Mono', monospace;">&nbsp;</span>
