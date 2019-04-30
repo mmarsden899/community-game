@@ -17,6 +17,15 @@ p {
   color: white;
 }
 
+button, .submit-button {
+  margin-top: 5px;
+  border-radius: 8px;
+}
+
+.account-button {
+  width: 200px;
+}
+
 .login-form, .sign-up-form {
   text-align: center;
 }

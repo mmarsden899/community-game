@@ -34,20 +34,20 @@
     <button id="back-to-login">Back to Login</button>
   </div>
   <div id="accounts-page" class="accounts-page">
-  <button id="create-character">Create Character</button>
-  <button id="play">Play</button>
-  <button id="alreadyplayed">Play</button>
-  <button id="change-password">Change Password</button>
-  <button id="see-character">View Character</button>
-  <button id="destroychar">Delete Character</button>
-  <button id=logout>Log Out</button>
+  <button id="create-character" class="account-button">Create Character</button>
+  <button id="play" class="account-button">Play</button>
+  <button id="alreadyplayed" class="account-button">Play</button>
+  <button id="change-password" class="account-button">Change Password</button>
+  <button id="see-character" class="account-button">View Character</button>
+  <button id="destroychar" class="account-button">Delete Character</button>
+  <button id="logout" class="account-button">Log Out</button>
 </div>
 <div id="changepass">
 <form id="change-password-form" class="passwordForm">
   <input type="password" name="passwords[old]" placeholder="old password" class="passinput">
   <input type="password" name="passwords[new]" placeholder="new password" class="passinput">
   <p id="changePassError" class="signInError"> </p>
-  <input type="submit" id="changePasswordButton" class="changePassSub">
+  <input type="submit" id="changePasswordButton" class="changePassSub submit-button">
 </form>
 <button id="passtoAccount" class="changePassSub">Account</button>
 </div>
@@ -56,8 +56,9 @@
   <div id="chat" class="chat">
     <form id="text-submit">
     <input type="text" id="text-input" class="chat-text" maxlength="30">
-    <input type='submit' id='submit-text-button'>
+    <input type='submit' id='submit-text-button' class="submit-button">
         </form>
+        <button id="playtoAccount">Account</button>
       </div>
 
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

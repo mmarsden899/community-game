@@ -24,13 +24,11 @@ const onGetCharacters = function () {
   setTimeout(onGetCharacters, 500)
 }
 const showCharacterFailure = function (data) {
-  console.log('failed with dataaa ' + data)
 }
 
 const showCharacterSuccess = function (data) {
   store.otherCharacters = data
   store.character = data.characters[window.userIDIndex]
-  console.log('isshowcharactersuccessfiring?')
   // console.log(store.character.user_name)
   // console.log(store.character.id)
   // console.log('storeeeeeee id is ' + store.character.id)
@@ -146,7 +144,7 @@ const onSignIn = function (event) {
   const data = getFormFields(event.target)
   signIn(data)
     .then(signInSuccess)
-    .catch(console.log('sign in failure' + JSON.stringify(data)))
+    .catch()
 }
 
 const signInSuccess = function (data) {
@@ -155,7 +153,6 @@ const signInSuccess = function (data) {
   store.user = data.user
   canCreateCharacter()
   window.charCreated = true
-  console.log(data.user)
 }
 
 const signUp = function (data) {
@@ -171,12 +168,11 @@ const onSignUp = function (event) {
   const data = getFormFields(event.target)
   signUp(data)
     .then(signUpSuccess)
-    .catch(console.log('sign up failure with data ' + JSON.stringify(data)))
+    .catch()
 }
 
 
 const signUpSuccess = function (data) {
-  console.log('sign up is firing succesfully')
 }
 
 const unLoad = function () {
@@ -199,7 +195,6 @@ const canCreateCharacter = function () {
   const userIDArray = []
   for (let i = 0; i < store.otherCharacters.characters.length; i++) {
     userIDArray.push(store.otherCharacters.characters[i].user_id)
-    console.log(userIDArray)
   }
   if (userIDArray.some(function (index) { return index === store.user.id })) {
     window.userIDIndex = userIDArray.findIndex(function (index) { return index === store.user.id })
@@ -223,10 +218,9 @@ const getMessageSuccess = (data) => {
 }
 
 const onGetMessages = (event) => {
-  console.log('were getting to onGetMessages')
   getMessages()
     .then(getMessageSuccess)
-    .catch(console.log('ongetmessages did not function'))
+    .catch()
   setTimeout(onGetMessages, 500)
 }
 
@@ -277,8 +271,8 @@ const destroyCharacter = function () {
 const onDestroyCharacter = function (event) {
   event.preventDefault()
   destroyCharacter()
-    .then(console.log('charactersuccesfullydestroyed'))
-    .catch(console.log('characterdidnotdestroy'))
+    .then()
+    .catch()
 }
 
 const hideModal = function () {
@@ -314,8 +308,6 @@ const logoutSuccess = function () {
 }
 
 const logoutFailure = function () {
-  console.log('================')
-  console.log('log out failed!')
 }
 
 const onLogOut = function () {
@@ -343,8 +335,7 @@ const onChangePassSuccess = function (data) {
 }
 
 const onChangePassFailure = function () {
-  console.log('==================')
-  console.log('hey onchangepass is failing')
+
 }
 
 const changePass = function (data) {
@@ -365,6 +356,15 @@ const passToAccount = function () {
 
 const playedToPlay = function () {
   $('.modal').hide()
+}
+
+const playToAccount = function () {
+  $('.modal').show()
+}
+
+const onViewCharacter = function () {
+  $('#accounts-page').hide()
+
 }
 
 module.exports = {
@@ -396,5 +396,6 @@ module.exports = {
   toChangePass,
   onChangePass,
   passToAccount,
-  playedToPlay
+  playedToPlay,
+  playToAccount
 }

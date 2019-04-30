@@ -1,0 +1,14 @@
+{{#each characters as |character|}}
+  {{log character}}
+  <section data-id="{{character.id}}">
+    <p>
+      {{#if character.user_id === window.id}}
+        {{character.user_name}}
+        {{message.text}}
+      {{else}}
+        No message provided.
+      {{/if}}
+    </p>
+  </section>
+
+{{/each}}
