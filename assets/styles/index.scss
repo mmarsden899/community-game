@@ -1,4 +1,6 @@
 @import '~bootstrap/scss/bootstrap';
+@import url('https://fonts.googleapis.com/css?family=Oxygen+Mono');
+
 html, body {
 min-height: 100%;
 }
@@ -9,7 +11,7 @@ body {
 
 canvas {
   border: 1px solid black;
-  background-color: green;
+  background-color: darkgreen;
   margin-left: 50px;
 }
 
@@ -30,16 +32,10 @@ button, .submit-button {
   text-align: center;
 }
 
-.block {
-  top: 200px;
-  position: absolute;
-  background-color: red;
-  height: 50px;
-  width: 50px;
-}
-
 .chat {
-  background-color: rgba(100,40,30,.7);
+  align-items: center;
+  display: flex;
+  flex-direction: row;
 }
 
 

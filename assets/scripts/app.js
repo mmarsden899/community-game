@@ -27,7 +27,7 @@ const characterSprites = ['https://i.imgur.com/UXlqiz6.png', 'https://i.imgur.co
 
 let canvas = document.querySelector('canvas')
 let ctx = canvas.getContext('2d')
-ctx.font = '15px Arial'
+ctx.font = '15px Oxygen Mono'
 let keyPresses = {}
 let currentDirection = FACING_DOWN
 let currentLoopIndex = 0
@@ -62,15 +62,15 @@ function loadImage () {
   img.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
-  speech.src = 'https://i.imgur.com/lNV5CaY.png'
+  speech.src = 'https://i.imgur.com/wa090e7.png'
   speech.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
-  speech2.src = 'https://i.imgur.com/hcuFVCP.png'
+  speech2.src = 'https://i.imgur.com/1VwqSa5.png'
   speech2.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
-  speech3.src = 'https://i.imgur.com/ilYzFLH.png'
+  speech3.src = 'https://i.imgur.com/xoWbu6X.png'
   speech3.onload = function () {
     window.requestAnimationFrame(gameLoop)
 }
@@ -81,17 +81,17 @@ function loadImage () {
 const showMessageOnRender = function () {
   for (let i = 0; i < store.allMessages.messages.length; i++) {
     if (store.allMessages.messages[i].user_id === store.user.id &&
-      moment(store.allMessages.messages[i].created_at).add(10, 'seconds').format('MMMM Do YYYY, hh:mm:ss a') >=
-      (moment().format('MMMM Do YYYY, hh:mm:ss a'))) {
-      if (store.allMessages.messages[i].text.length > 25) {
-        ctx.drawImage(speech, window.positionX - 55, window.positionY - 50)
-        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 0.5 + 10), window.positionY - 30)
-      } else if (store.allMessages.messages[i].text.length > 15) {
-        ctx.drawImage(speech2, window.positionX - 55, window.positionY - 40)
-        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 0.5 + 10), window.positionY - 26)
+      moment(store.allMessages.messages[i].created_at).add(10, 'seconds').format() >=
+      (moment().format())) {
+      if (store.allMessages.messages[i].text.length > 20) {
+        ctx.drawImage(speech, window.positionX - 80, window.positionY - 50)
+        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 31)
+      } else if (store.allMessages.messages[i].text.length > 10) {
+        ctx.drawImage(speech2, window.positionX - 55, window.positionY - 50)
+        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 0.5 + 24), window.positionY - 30)
       } else if (store.allMessages.messages[i].text.length > 0) {
-        ctx.drawImage(speech3, window.positionX - 25, window.positionY - 40)
-        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 0.5 + 10), window.positionY - 26)
+        ctx.drawImage(speech3, window.positionX - 25, window.positionY - 50)
+        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 0.5 + 24), window.positionY - 30)
       } else {
         ctx.fillText(' ', window.positionX + 21.5, window.positionY - 20)
     }
@@ -107,9 +107,6 @@ function drawFrame (frameX, frameY, canvasX, canvasY) {
     canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT);
 }
 
-const setCurrentPlaying = function () {
-  window.currentPlaying = false
-}
 
 loadImage()
 
@@ -150,19 +147,21 @@ function gameLoop () {
   }
 
   if (window.charCreated === true) {
-    ctx.fillText(window.user_name, window.positionX + (window.user_name.length * 10 / 2), window.positionY - 10)
     Object.keys(store.otherCharacters.characters).forEach(function (key) {
       if ((store.otherCharacters.characters[key].active === true) &&
       (store.otherCharacters.characters[key].id !== window.id)) {
         for (let i = 0; i < store.allMessages.messages.length; i++) {
           if (store.allMessages.messages[i].user_id === store.otherCharacters.characters[key].id &&
-            moment(store.allMessages.messages[i].created_at).add(20, 'seconds').format('MMMM Do YYYY, hh:mm:ss a') >=
-            (moment().format('MMMM Do YYYY, hh:mm:ss'))) {
+            moment(store.allMessages.messages[i].created_at).add(10, 'seconds').format() >=
+            (moment().format())) {
             if (store.allMessages.messages[i].text.length > 20) {
-              ctx.fillText(store.allMessages.messages[i].text.split('', 15), store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 30)
-              ctx.fillText(store.allMessages.messages[i].text.subst(store.allMessages.messages[i].text.length - (store.allMessages.messages[i].text.length - 15)), store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
+              ctx.drawImage(speech, window.positionX - 80, window.positionY - 50)
+              // ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 31)
+              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 2.45), store.otherCharacters.characters[key].y - 31)
             } else {
-              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
+              (console.log('are we getting to else?'))
+              ctx.fillText(' ', store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
+            //  ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
             }
           }
         }
@@ -172,6 +171,7 @@ function gameLoop () {
     }
     )
     showMessageOnRender()
+    ctx.fillText(window.user_name, window.positionX + (window.user_name.length * 7 / 2), window.positionY - 10)
     drawFrame(CYCLE_LOOP[currentLoopIndex], currentDirection, window.positionX, window.positionY)
     window.requestAnimationFrame(gameLoop)
 }
