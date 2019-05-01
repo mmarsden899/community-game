@@ -250,8 +250,8 @@ const onSendText = function (event) {
   const data = $('#text-input').val()
   $('form').trigger('reset')
   sendText(data)
-    .then('on send text success')
-    .catch('on send text fialure')
+    .then()
+    .catch()
 }
 
 const sendText = function (data) {
@@ -326,6 +326,8 @@ const logOut = function () {
 const logoutSuccess = function () {
   $('#accounts-page').hide()
   $('#loginForms').show()
+  $('#alreadyplayed').hide()
+  store.user.token = null
 }
 
 const logoutFailure = function () {

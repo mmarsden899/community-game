@@ -219,20 +219,20 @@ function gameLoop () {
           otherFrameCount[key]++
           if (otherFrameCount[key] >= FRAME_LIMIT) {
             otherFrameCount[key] = 0
-          otherCurrentLoopIndex[key]++
-          if (otherCurrentLoopIndex[key] >= OTHER_CYCLE_LOOP.length) {
-            otherCurrentLoopIndex[key] = 0
+            otherCurrentLoopIndex[key]++
+            if (otherCurrentLoopIndex[key] >= OTHER_CYCLE_LOOP.length) {
+              otherCurrentLoopIndex[key] = 0
+            }
           }
         }
+        if (store.otherCharacters.characters[key].moving === true) {
+          ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length * 1.75), store.otherCharacters.characters[key].y - 10)
+          drawFrame(store.otherCharacters.characters[key].spritesheet, OTHER_CYCLE_LOOP[otherCurrentLoopIndex[key]], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
+        } else {
+          ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length * 1.75), store.otherCharacters.characters[key].y - 10)
+          drawFrame(store.otherCharacters.characters[key].spritesheet, OTHER_CYCLE_LOOP[0], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
+        }
       }
-      if (store.otherCharacters.characters[key].moving === true) {
-        ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length * 1.75), store.otherCharacters.characters[key].y - 10)
-        drawFrame(store.otherCharacters.characters[key].spritesheet, OTHER_CYCLE_LOOP[otherCurrentLoopIndex[key]], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
-      } else {
-        ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length * 1.75), store.otherCharacters.characters[key].y - 10)
-        drawFrame(store.otherCharacters.characters[key].spritesheet, OTHER_CYCLE_LOOP[0], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
-      }
-    }
     }
     )
     showMessageOnRender()
