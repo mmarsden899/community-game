@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Oxygen+Mono|Wendy+One');
 
 html, body {
-  background-image: url('../public/city-pixel.jpg');
+  background-image: url('../../public/city-pixel.jpg');
   min-height: 100%;
 }
 body {
@@ -90,7 +90,7 @@ button:hover, .submit-button:hover {
 }
 
 canvas {
-  background-image: url('../public/city-pixel.jpg');
+  background-image: url('../../public/city-pixel.jpg');
   border: 1px solid black;
   display: block;
   margin: auto;
@@ -124,7 +124,7 @@ button, .submit-button {
 
 
 .modal {
-  background-image: url('../public/city-pixel.jpg');
+  background-image: url('../../public/city-pixel.jpg');
 }
 
 #tictac {
