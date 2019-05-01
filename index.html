@@ -13,10 +13,10 @@
       <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
     <body>
-      <h1>Community the Game</h1>
       <div class="modal">
       <div id="loginForms" class="login-form">
         <form id="sign-in" name="sign-in" class="sign-in">
+      <h1 class="title">Community</h1>
       <input type="email" name="credentials[email]" placeholder="Email" class="sign-in-form" autocomplete="email username">
       <input type="password" name="credentials[password]" placeholder="Password" class="sign-in-form" autocomplete="password">
       <p id="signInError" class="signInError"></p>
@@ -39,13 +39,13 @@
   <button id="play" class="account-button">Play</button>
   <button id="alreadyplayed" class="account-button">Play</button>
   <button id="change-password" class="account-button">Change Password</button>
-  <button id="see-character" class="account-button">View Character</button>
+<!--  <button id="see-character" class="account-button">View Character</button> -->
   <button id="create-character" class="account-button">Create Character</button>
   <button id="destroychar" class="account-button">Delete Character</button>
   <button id="logout" class="account-button">Log Out</button>
-  <button id="tictac" class="tictac">Tic-Tac-Toe</button>
 </div>
 <div id="changepass">
+  <p id="password-error"></p>
 <form id="change-password-form" class="passwordForm">
   <input type="password" name="passwords[old]" placeholder="old password" class="passinput">
   <input type="password" name="passwords[new]" placeholder="new password" class="passinput">
@@ -59,6 +59,7 @@
 </div>
 </div>
 <span style="font-family: 'Oxygen Mono', monospace;">&nbsp;</span>
+    <h1 class="canvasH1">Community</h1>
   <canvas width="1024" height="576"></canvas>
   <div id="chat" class="chat">
     <form id="text-submit">

@@ -243,6 +243,7 @@ function moveCharacter (deltaX, deltaY, direction, stringDirection) {
 }
 
 $(() => {
+  $('#play').hide()
   $('#tictactoe').hide()
   $('.modal').show()
   $('#accounts-page').hide()

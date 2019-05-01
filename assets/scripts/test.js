@@ -29,12 +29,6 @@ const showCharacterFailure = function (data) {
 const showCharacterSuccess = function (data) {
   store.otherCharacters = data
   store.character = data.characters[window.userIDIndex]
-  // console.log(store.character.user_name)
-  // console.log(store.character.id)
-  // console.log('storeeeeeee id is ' + store.character.id)
-  // console.log('==================oooo=======================')
-  // console.log('the user index things are ' + store.otherCharacters.characters[window.userIDIndex].id)
-  // console.log('the stores user id is ' + store.character.id)
 }
 
 const createCharacter = function (data) {
@@ -72,14 +66,14 @@ const createCharacterSuccess = function (data) {
   window.id = store.userCharacter.character.id
   $('#create-character').hide()
   $('#destroychar').show()
-  $('#play').show()
-  // console.log('character success with ' + store.userCharacter.character.x)
-  // console.log('character app positionX is ' + app.positionX)
-  // console.log(store.userCharacter.character.user_name)
+  $('#accountError').text('Character created!')
+  if (!window.currentPlaying) {
+    $('#play').show()
+}
 }
 
 const createCharacterFailure = function (data) {
-  // console.log('failed with data ' + JSON.stringify(data))
+
 }
 
 const updateCharacter = function () {
@@ -117,12 +111,9 @@ const onUpdateCharacterOnce = function () {
 }
 
 const isCharCreatedTrue = function () {
-//  console.log('is char created true firing?')
   if (window.charCreated === true) {
     onUpdateCharacter()
-  //  console.log('this should be working charcreated')
   } else {
-  //  console.log('window CharCreated isnt true')
     setTimeout(isCharCreatedTrue, 500)
   }
 }
@@ -158,6 +149,7 @@ const signInSuccess = function (data) {
   $('#loginForms').hide()
   $('#signInError').text(' ')
   $('form').trigger('reset')
+  $('#accountError').text('Sign in success!')
   store.user = data.user
   canCreateCharacter()
   window.charCreated = true
@@ -226,6 +218,7 @@ const canCreateCharacter = function () {
     window.user_name = store.otherCharacters.characters[window.userIDIndex].user_name
     window.sprite = store.otherCharacters.characters[window.userIDIndex].spritesheet
     window.id = store.otherCharacters.characters[window.userIDIndex].id
+    $('#play').show()
   } else {
     $('#play').hide()
     $('#create-character').show()
@@ -292,7 +285,7 @@ const destroyCharacter = function () {
 const onDestroyCharacter = function (event) {
   event.preventDefault()
   destroyCharacter()
-    .then(canCreateCharacter, $('#destroychar').hide(), $('#create-character').show())
+    .then(canCreateCharacter, $('#play').hide(), $('#destroychar').hide(), $('#create-character').show(), $('#accountError').text('Character deleted'))
     .catch()
 }
 
@@ -339,6 +332,7 @@ const onLogOut = function () {
 
 const toChangePass = function () {
   $('#accounts-page').hide()
+  $('#accountError').text(' ')
   $('#changepass').show()
 }
 
@@ -353,10 +347,12 @@ const onChangePass = function (event) {
 const onChangePassSuccess = function (data) {
   $('#changepass').hide()
   $('#accounts-page').show()
+  $('#accountError').css('color', 'white')
+  $('#accountError').text('Password succesfully changed')
 }
 
 const onChangePassFailure = function () {
-
+  $('#password-error').text('Something went wrong. Please try again')
 }
 
 const changePass = function (data) {
