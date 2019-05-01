@@ -34,6 +34,7 @@ window.currentDirection = [FACING_DOWN, 'FACING_DOWN']
 let currentLoopIndex = 0
 let otherCurrentLoopIndex = 0
 let frameCount = 0
+let otherFrameCount = 0
 window.positionX = 0
 window.positionY = 0
 window.user_name = ''
@@ -215,13 +216,15 @@ function gameLoop () {
           }
         }
         if (store.otherCharacters.characters[key].moving === true) {
+          otherFrameCount++
+          if (otherFrameCount >= FRAME_LIMIT) {
+            otherFrameCount = 0
           otherCurrentLoopIndex++
           if (otherCurrentLoopIndex >= OTHER_CYCLE_LOOP.length) {
             otherCurrentLoopIndex = 0
           }
-        } else {
-          otherCurrentLoopIndex = 0
         }
+      }
         ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length * 1.75), store.otherCharacters.characters[key].y - 10)
         drawFrame(store.otherCharacters.characters[key].spritesheet, OTHER_CYCLE_LOOP[otherCurrentLoopIndex], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
       }
