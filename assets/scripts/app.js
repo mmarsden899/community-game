@@ -155,7 +155,6 @@ function drawFrame (num, frameX, frameY, canvasX, canvasY) {
 loadImage()
 
 function gameLoop () {
-//  console.log(currentDirection[1])
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   window.hasMoved = false
@@ -210,7 +209,6 @@ function gameLoop () {
               ctx.drawImage(speech3, store.otherCharacters.characters[key].x - 25, store.otherCharacters.characters[key].y - 50)
               ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 2.45), store.otherCharacters.characters[key].y - 31)
             } else {
-              (console.log('are we getting to else?'))
               ctx.fillText(' ', store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
             //  ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
             }
