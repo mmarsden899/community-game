@@ -258,6 +258,7 @@ $(() => {
   $('#back-to-login').on('click', test.backToLogin)
   $('#loginToSignUp').on('click', test.loginSignUp)
   $('#passtoAccount').on('click', test.passToAccount)
+  $('#logout').on('click', test.unload)
   $('#logout').on('click', test.onLogOut)
   $('#change-password-form').on('submit', test.onChangePass)
   $('#change-password').on('click', test.toChangePass)

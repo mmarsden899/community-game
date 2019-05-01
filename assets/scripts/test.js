@@ -319,7 +319,6 @@ const logOut = function () {
 const logoutSuccess = function () {
   $('#accounts-page').hide()
   $('#loginForms').show()
-  unLoad()
 }
 
 const logoutFailure = function () {
