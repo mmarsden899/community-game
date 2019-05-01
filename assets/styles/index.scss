@@ -21,8 +21,8 @@ h1 {
 
 .star {
   position: absolute;
-  width: 2px;
-  height: 2px;
+  width: 5px;
+  height: 5px;
   background: rgba(255,255,255,0.0);
   border-radius: 5px;
 }
@@ -52,11 +52,41 @@ span {
   height: 0;
 }
 
+::placeholder {
+  color: white;
+}
+
+#passtoAccount {
+  text-align: center;
+  display: block;
+  margin: auto;
+}
+
+input {
+  background-color: rgba(154, 99, 180, .3);
+  border: solid 1px rgb(154,99,180);
+  margin-bottom: 5px;
+  border-radius: 5px;
+  color: white;
+}
+button, .submit-button {
+  background-color: rgba(154, 99, 180, .5);
+  border: solid 1px rgb(154,99,180);
+  margin-bottom: 5px;
+  color: white;
+}
+
+button:hover, .submit-button:hover {
+  transition: background-color 1s;
+  background-color: rgba(154, 99, 180, .8)
+}
+
 .canvasH1 {
   text-align: center;
   display: block;
   margin-top: -15px;
   margin: 0, auto, 0, auto;
+  z-index: 10;
 }
 
 canvas {

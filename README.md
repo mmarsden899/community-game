@@ -4,6 +4,7 @@ Throughout my time at General Assembly’s software engineer immersive, one of t
 The front end of this project relied heavily on HTML’s canvas element which, while was difficult, proved to be a great challenge and made consider and rethink a lot of my original planning.
 
 ## Technologies Used
+
 * JavaScript
 * Ruby
 * Rails
@@ -15,26 +16,53 @@ The front end of this project relied heavily on HTML’s canvas element which, w
 * Heroku
 * moment.js
 
-## Planning  Planning started by creating my wireframe and ERD to establish my goal. Breaking that into steps and milestones, I first started by attacking the backend and creating my tables. I had mapped out the relationships I needed ahead of time to cut-back on any hiccups that I would encounter.  When that was established, I jumped into canvas and started working on keydown events and player movement. After I had tackled the basics, I started to create my views so I could better test user authorization and character creation. From there, I decided to add a personal stretch goal of messaging.  After fiddling around with a chat feature, I couldn’t come up with a display that I was happy with and came up with the idea to attach messaging to speech bubbles above player heads to give it a more retro-gaming aesthetic.  ## Future Iterations
+## Planning  
 
-Some things that I would really like to implement would be player collision detection. I had white-boarded the logic but didn’t have time to add the functionality. Another feature would be NPC(non-playable-characters) to interact with.  Community was a two birds with one stone project. I’d like to stay consistent with updates to it as it started as a personal project that I was able to implement into a project. I can imagine it being a much larger scale game that I can periodically add further substance to but for the sake of meeting requirements think I excelled in creating a basic game engine that I can add to.  
+Planning started by creating my wireframe and ERD to establish my goal. Breaking that into steps and milestones, I first started by attacking the backend and creating my tables. I had mapped out the relationships I needed ahead of time to cut-back on any hiccups that I would encounter.  When that was established, I jumped into canvas and started working on keydown events and player movement. After I had tackled the basics, I started to create my views so I could better test user authorization and character creation. From there, I decided to add a personal stretch goal of messaging.  After fiddling around with a chat feature, I couldn’t come up with a display that I was happy with and came up with the idea to attach messaging to speech bubbles above player heads to give it a more retro-gaming aesthetic.
+
+
+## Future Iterations
+
+Some things that I would really like to implement would be player collision detection. I had white-boarded the logic but didn’t have time to add the functionality. Another feature would be NPC(non-playable-characters) to interact with. If I had more time, I would consider websockets to take some of the heavy lifting off of the client.  Community was a two birds with one stone project. I’d like to stay consistent with updates to it as it started as a personal project that I was able to implement into a project. I can imagine it being a much larger scale game that I can periodically add further substance to but for the sake of meeting requirements think I excelled in creating a basic game engine that I can add to.  
+
 ## Wireframe
 
-![Community Wireframe](“https://i.imgur.com/nhVYqll.png”)
+![Community Wireframe](https://i.imgur.com/nhVYqll.png)
 
 ## User Stories
+
 #### Auth
+
 As a user, I want to be able create an account.
+
 As a user, I want to be able to sign in with a created account
+
 As a user, I want to be able to update my password
+
 As a user, I want to be able to logout
 
 #### Character
+
 As a user, I want to be able to create a character
+
 As a user, I want to be able to play as that character
+
 As a user, I want to be able to delete my character
+
 As a user, I want to be able to update my character to reflect changes made
 
 #### Messaging
+
 As a user, I want to be able to send messages
+
 As a user, I want to be able to receive messages
+
+## Links
+
+### [Front-end Client](https://mmarsden89.github.io/community-game/)
+
+### [Backend Heroku Link](https://polar-forest-19026.herokuapp.com/)
+
+### [Front-end Github Repository](https://github.com/mmarsden89/community-game)
+
+### [Back-end Github Repository](https://github.com/mmarsden89/community-game-api)
