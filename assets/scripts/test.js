@@ -220,7 +220,6 @@ const canCreateCharacter = function () {
     window.id = store.otherCharacters.characters[window.userIDIndex].id
     $('#play').show()
   } else {
-    $('#play').hide()
     $('#create-character').show()
     $('#destroychar').hide()
   }
@@ -285,8 +284,16 @@ const destroyCharacter = function () {
 const onDestroyCharacter = function (event) {
   event.preventDefault()
   destroyCharacter()
-    .then(canCreateCharacter, $('#play').hide(), $('#destroychar').hide(), $('#create-character').show(), $('#accountError').text('Character deleted'))
+    .then(destroyCharacterSuccess)
     .catch()
+}
+
+const destroyCharacterSuccess = function () {
+  canCreateCharacter()
+  $('#play').hide()
+  $('#destroychar').hide()
+  $('#create-character').show()
+  $('#accountError').text('Character deleted')
 }
 
 const hideModal = function () {
