@@ -3,12 +3,15 @@ const store = require('./store')
 const getFormFields = require('./../../lib/get-form-fields')
 const app = require('./app')
 const userNames = require('./user-names')
+const moment = require('moment')
 
 
 
 window.charCreated = false
 let gameIsBeingPlayed = true
 
+
+// character API
 const getCharacters = function () {
   return $.ajax({
     url: config.apiUrl + '/characters',
@@ -18,6 +21,7 @@ const getCharacters = function () {
   })
 }
 
+// character API
 const onGetCharacters = function () {
   if (gameIsBeingPlayed) {
     getCharacters()
@@ -27,14 +31,15 @@ const onGetCharacters = function () {
     console.log('game is not being played currently')
 }
 }
+// character UI
 const showCharacterFailure = function (data) {
 }
-
+// character UI
 const showCharacterSuccess = function (data) {
   store.otherCharacters = data
   store.character = data.characters[window.userIDIndex]
 }
-
+// character API
 const createCharacter = function (data) {
   return $.ajax({
     url: config.apiUrl + '/characters',
@@ -53,13 +58,13 @@ const createCharacter = function (data) {
     }
   })
 }
-
+// character Events
 const onCreateCharacter = function () {
   createCharacter()
     .then(createCharacterSuccess)
     .catch(createCharacterFailure)
 }
-
+// character UI
 const createCharacterSuccess = function (data) {
   store.userCharacter = data
   window.charCreated = true
@@ -75,10 +80,11 @@ const createCharacterSuccess = function (data) {
 }
 }
 
+// character UI
 const createCharacterFailure = function (data) {
 
 }
-
+// character API
 const updateCharacter = function () {
   return $.ajax({
     url: config.apiUrl + `/characters/${window.id}`,
@@ -98,14 +104,14 @@ const updateCharacter = function () {
   })
 }
 
-
+// character Events
 const onUpdateCharacter = function () {
 //  console.log('is update character firing?')
   updateCharacter()
     .then(updateCharacterSuccess)
     .catch(updateCharacterFailure)
 }
-
+// character MISC
 const isCharCreatedTrue = function () {
   if (window.charCreated === true) {
       console.log('suh')
@@ -113,16 +119,17 @@ const isCharCreatedTrue = function () {
     setTimeout(isCharCreatedTrue, 500)
   }
 }
-
+// character UI
 const updateCharacterSuccess = function (data) {
 //  console.log('update character success with' + data)
 }
 
+// character UI
 const updateCharacterFailure = function (data) {
 //  console.log('update character failure with ' + JSON.stringify(data))
 }
 
-
+// Auth API
 const signIn = function (data) {
   return $.ajax({
     url: config.apiUrl + '/sign-in',
@@ -132,6 +139,7 @@ const signIn = function (data) {
   })
 }
 
+// Auth Events
 const onSignIn = function (event) {
   event.preventDefault()
   const data = getFormFields(event.target)
@@ -139,7 +147,7 @@ const onSignIn = function (event) {
     .then(signInSuccess)
     .catch(signInError)
 }
-
+// Auth UI
 const signInSuccess = function (data) {
   onGetCharacters()
   isCharCreatedTrue()
@@ -149,14 +157,16 @@ const signInSuccess = function (data) {
   $('form').trigger('reset')
   $('#accountError').text('Sign in success!')
   store.user = data.user
+  console.log('=======================')
+  console.log(moment(store.user.updated_at).format('MMMM Do YYYY, h:mm:ss a'))
   setTimeout(canCreateCharacter, 1000)
 }
-
+// Auth UI
 const signInError = function () {
   $('form').trigger('reset')
   $('#signInError').text('Sign in error. Please try again')
 }
-
+// Auth API
 const signUp = function (data) {
   return $.ajax({
     url: config.apiUrl + '/sign-up',
@@ -165,6 +175,7 @@ const signUp = function (data) {
   })
 }
 
+// Auth Events
 const onSignUp = function (event) {
   event.preventDefault()
   const data = getFormFields(event.target)
@@ -174,6 +185,7 @@ const onSignUp = function (event) {
 }
 
 
+// Auth UI
 const signUpSuccess = function (data) {
   $('#loginForms').show()
   $('#signUpForm').hide()
@@ -181,11 +193,13 @@ const signUpSuccess = function (data) {
   $('#signInError').text('Sign-up success')
 }
 
+// Auth UI
 const signUpFailure = function () {
   $('form').trigger('reset')
   $('#signUpError').text('Sign-up failed. Please try again.')
 }
 
+// Misc UNLOAD feature
 const unLoad = function () {
   return $.ajax({
     url: config.apiUrl + `/characters/${window.id}`,
@@ -202,6 +216,7 @@ const unLoad = function () {
   })
 }
 
+// Character MISC
 const canCreateCharacter = function () {
   const userIDArray = []
   for (let i = 0; i < store.otherCharacters.characters.length; i++) {
@@ -209,7 +224,6 @@ const canCreateCharacter = function () {
   }
   if (userIDArray.some(function (index) { return index === store.user.id })) {
     window.userIDIndex = userIDArray.findIndex(function (index) { return index === store.user.id })
-//    console.log('=======================================================')
     window.positionX = store.otherCharacters.characters[window.userIDIndex].x
     window.positionY = store.otherCharacters.characters[window.userIDIndex].y
     window.user_name = store.otherCharacters.characters[window.userIDIndex].user_name
@@ -223,16 +237,18 @@ const canCreateCharacter = function () {
   }
 }
 
+
+// Messages UI
 const getMessageSuccess = (data) => {
   store.allMessages = data
 }
-
+// Messages UI
 const onGetMessages = (event) => {
   getMessages()
     .then(getMessageSuccess)
     .catch()
 }
-
+// Messages API
 const getMessages = function () {
   return $.ajax({
     url: config.apiUrl + '/messages',
@@ -242,6 +258,7 @@ const getMessages = function () {
   })
 }
 
+// Messages API
 const onSendText = function (event) {
   event.preventDefault()
   const data = $('#text-input').val()
@@ -250,7 +267,7 @@ const onSendText = function (event) {
     .then()
     .catch()
 }
-
+// Messages API
 const sendText = function (data) {
   return $.ajax({
     url: config.apiUrl + '/messages',
@@ -268,6 +285,7 @@ const sendText = function (data) {
   })
 }
 
+// Characters API
 const destroyCharacter = function () {
   return $.ajax({
     url: config.apiUrl + `/characters/${window.id}`,
@@ -278,13 +296,14 @@ const destroyCharacter = function () {
   })
 }
 
+// Characters Events
 const onDestroyCharacter = function (event) {
   event.preventDefault()
   destroyCharacter()
     .then(destroyCharacterSuccess)
     .catch()
 }
-
+// Characters UI
 const destroyCharacterSuccess = function () {
   canCreateCharacter()
   $('#play').hide()
@@ -293,6 +312,7 @@ const destroyCharacterSuccess = function () {
   $('#accountError').text('Character deleted')
 }
 
+// MISC HIDE MODAL
 const hideModal = function () {
   $('.modal').hide()
   $('#play').hide()
@@ -300,16 +320,18 @@ const hideModal = function () {
   window.currentPlaying = true
 }
 
+// MISC SHOW DIVS
 const loginSignUp = function () {
   $('#loginForms').hide()
   $('#signUpForm').show()
 }
 
+// MISC SHOW DIVS
 const backToLogin = function () {
   $('#signUpForm').hide()
   $('#loginForms').show()
 }
-
+// Auth API
 const logOut = function () {
   return $.ajax({
     url: config.apiUrl + '/sign-out',
@@ -320,6 +342,7 @@ const logOut = function () {
 })
 }
 
+// Auth UI
 const logoutSuccess = function () {
   $('#accounts-page').hide()
   $('#loginForms').show()
@@ -327,21 +350,25 @@ const logoutSuccess = function () {
   store.user.token = null
 }
 
+// AUTH UI
 const logoutFailure = function () {
 }
 
+// Auth Events
 const onLogOut = function () {
   logOut()
     .then(logoutSuccess)
     .catch(logoutFailure)
 }
 
+// MISC SHOW DIVS
 const toChangePass = function () {
   $('#accounts-page').hide()
   $('#accountError').text(' ')
   $('#changepass').show()
 }
 
+// Auth Events
 const onChangePass = function (event) {
   event.preventDefault()
   const data = getFormFields(event.target)
@@ -350,6 +377,8 @@ const onChangePass = function (event) {
     .catch(onChangePassFailure)
 }
 
+
+// Auth UI
 const onChangePassSuccess = function (data) {
   $('#changepass').hide()
   $('#accounts-page').show()
@@ -357,10 +386,13 @@ const onChangePassSuccess = function (data) {
   $('#accountError').text('Password succesfully changed')
 }
 
+// Auth UI
 const onChangePassFailure = function () {
   $('#password-error').text('Something went wrong. Please try again')
 }
 
+
+// Auth Events
 const changePass = function (data) {
   return $.ajax({
     url: config.apiUrl + '/change-password',
@@ -372,23 +404,28 @@ const changePass = function (data) {
   })
 }
 
+// MISC SHOW DIVS
 const passToAccount = function () {
   $('#changepass').hide()
   $('#accounts-page').show()
 }
 
+// MISC SHOW DIVS
 const playedToPlay = function () {
   $('.modal').hide()
 }
 
+// MISC SHOW DIVS
 const playToAccount = function () {
   $('.modal').show()
 }
 
-const onViewCharacter = function () {
-  $('#accounts-page').hide()
-}
+// MISC SHOW DIVS
+// const onViewCharacter = function () {
+//   $('#accounts-page').hide()
+// }
 
+// MISC SHOW DIVS
 const onTicTac = function () {
   $('#accounts-page').hide()
   $('#tictactoe').show()
