@@ -45,10 +45,11 @@ let img3 = new Image()
 
 store.userCharacter = {}
 store.userCharacter.character = 0
-test.onGetCharacters()
+let onGetChar = setInterval(test.onGetCharacters, 1000)
+// let onUpdateChar = setInterval(test.onUpdateCharacter, 1000)
 test.onGetMessages()
-for (var i = 0; i < 100; i++) {
-  var star = '<div class="star" style="animation: twinkle '+((Math.random()*5) + 5)+'s linear '+((Math.random()*5) + 5)+'s infinite; top: '+Math.random()*$(window).height()/2+'px; left: '+Math.random()*$(window).width()+'px;"></div>';
+for (let i = 0; i < 100; i++) {
+  let star = '<div class="star" style="animation: twinkle '+ ((Math.random()*5) + 5)+'s linear '+((Math.random()*5) + 5)+'s infinite; top: '+Math.random()*$(window).height()/2+'px; left: '+Math.random()*$(window).width()+'px;"></div>';
   $('.modal').append(star)
 }
 
@@ -239,7 +240,7 @@ function gameLoop () {
     ctx.fillText(window.user_name, window.positionX - (window.user_name.length * 1.75), window.positionY - 10)
     drawFrame(window.sprite, CYCLE_LOOP[currentLoopIndex], window.currentDirection[0], window.positionX, window.positionY)
     window.requestAnimationFrame(gameLoop)
-}
+  }
 }
 
 function moveCharacter (deltaX, deltaY, direction, stringDirection) {
@@ -253,6 +254,16 @@ function moveCharacter (deltaX, deltaY, direction, stringDirection) {
   window.currentDirection[1] = stringDirection
 }
 
+const setHTTPRequests = function () {
+  window.getCharInt = setInterval(test.onGetCharacters, 1000)
+  window.updateCharInt = setInterval(test.onUpdateCharacter, 1000)
+}
+
+const shutOffHTTPRequests = function () {
+  clearInterval(window.getCharInt)
+  clearInterval(window.updateCharInt)
+}
+
 $(() => {
   $('#play').hide()
   $('#tictactoe').hide()
@@ -262,7 +273,9 @@ $(() => {
   $('#alreadyplayed').hide()
   $('#see-character').on('click', test.onViewCharacter)
   $('#playtoAccount').on('click', test.playToAccount)
+  $('#playtoAccount').on('click', shutOffHTTPRequests)
   $('#alreadyplayed').on('click', test.playedToPlay)
+  $('#alreadyplayed').on('click', setHTTPRequests)
   $('#back-to-login').on('click', test.backToLogin)
   $('#loginToSignUp').on('click', test.loginSignUp)
   $('#passtoAccount').on('click', test.passToAccount)
@@ -277,6 +290,7 @@ $(() => {
   $('#play').on('click', test.hideModal)
   $('#play').on('click', gameLoop)
   $('#play').on('click', test.onUpdateCharacter)
+  $('#play').on('click', setHTTPRequests)
   $('#sign-in').on('submit', test.onGetMessages)
   $('#updatechar').on('click', test.isCharCreatedTrue)
   $('#sign-up').on('submit', test.onSignUp)
@@ -286,7 +300,7 @@ $(() => {
   $(window).on('unload', test.unLoad)
 })
 
-
 module.exports = {
-  characterSprites
+  characterSprites,
+  onGetChar
 }

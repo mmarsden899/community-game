@@ -7,6 +7,7 @@ const userNames = require('./user-names')
 
 
 window.charCreated = false
+let gameIsBeingPlayed = true
 
 const getCharacters = function () {
   return $.ajax({
@@ -18,10 +19,13 @@ const getCharacters = function () {
 }
 
 const onGetCharacters = function () {
-  getCharacters()
-    .then(showCharacterSuccess)
-    .catch(showCharacterFailure)
-  setTimeout(onGetCharacters, 250)
+  if (gameIsBeingPlayed) {
+    getCharacters()
+      .then(showCharacterSuccess)
+      .catch(showCharacterFailure)
+  } else {
+    console.log('game is not being played currently')
+}
 }
 const showCharacterFailure = function (data) {
 }
@@ -59,7 +63,6 @@ const onCreateCharacter = function () {
 const createCharacterSuccess = function (data) {
   store.userCharacter = data
   window.charCreated = true
-  // console.log('window character created is ' + window.charCreated)
   window.positionX = store.userCharacter.character.x
   window.positionY = store.userCharacter.character.y
   window.user_name = store.userCharacter.character.user_name
@@ -101,18 +104,11 @@ const onUpdateCharacter = function () {
   updateCharacter()
     .then(updateCharacterSuccess)
     .catch(updateCharacterFailure)
-  setTimeout(onUpdateCharacter, 250)
-}
-
-const onUpdateCharacterOnce = function () {
-  updateCharacter()
-    .then(updateCharacterSuccess)
-    .catch(updateCharacterFailure)
 }
 
 const isCharCreatedTrue = function () {
   if (window.charCreated === true) {
-    onUpdateCharacter()
+      console.log('suh')
   } else {
     setTimeout(isCharCreatedTrue, 500)
   }
@@ -145,6 +141,7 @@ const onSignIn = function (event) {
 }
 
 const signInSuccess = function (data) {
+  isCharCreatedTrue()
   $('#accounts-page').show()
   $('#loginForms').hide()
   $('#signInError').text(' ')
@@ -152,7 +149,6 @@ const signInSuccess = function (data) {
   $('#accountError').text('Sign in success!')
   store.user = data.user
   canCreateCharacter()
-  window.charCreated = true
 }
 
 const signInError = function () {
@@ -218,6 +214,7 @@ const canCreateCharacter = function () {
     window.user_name = store.otherCharacters.characters[window.userIDIndex].user_name
     window.sprite = store.otherCharacters.characters[window.userIDIndex].spritesheet
     window.id = store.otherCharacters.characters[window.userIDIndex].id
+    window.charCreated = true
     $('#play').show()
   } else {
     $('#create-character').show()
@@ -372,7 +369,7 @@ const changePass = function (data) {
       Authorization: 'Token token=' + store.user.token
     },
     data
-})
+  })
 }
 
 const passToAccount = function () {
@@ -410,7 +407,6 @@ module.exports = {
   updateCharacter,
   isCharCreatedTrue,
   unLoad,
-  onUpdateCharacterOnce,
   onSignUp,
   signUp,
   getMessages,
