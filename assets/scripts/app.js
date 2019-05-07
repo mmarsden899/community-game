@@ -30,6 +30,8 @@ let canvas = document.querySelector('canvas')
 let ctx = canvas.getContext('2d')
 ctx.font = '15px Oxygen Mono'
 let keyPresses = {}
+let validKeys = ['w', 'a', 's', 'd']
+
 window.currentDirection = [FACING_DOWN, 'FACING_DOWN']
 let currentLoopIndex = 0
 let otherCurrentLoopIndex = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -81,10 +83,27 @@ const imgWhich = function (num) {
   }
   return value
 }
-
+store.cantPress = false
 window.addEventListener('keydown', keyDownListener)
 function keyDownListener (event) {
   keyPresses[event.key] = true
+  if (!keyPresses.w && !keyPresses.a && !keyPresses.s && !keyPresses.d && !store.cantPress) {
+    console.log('wtf')
+    keyPresses[event.key] = false
+  }
+  // if (validKeys.some(isValidKey) === false) {
+  //   console.log('wait what')
+  // }
+}
+
+window.addEventListener('click', mouseOverListener)
+function mouseOverListener (event) {
+  console.log(event)
+  if (event.target.localName === 'input') {
+    store.cantPress = true
+  } else {
+    store.cantPress = false
+  }
 }
 
 window.addEventListener('keyup', keyUpListener)
@@ -174,6 +193,7 @@ function gameLoop () {
     moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT, 'FACING_RIGHT')
     window.hasMoved = true
   }
+
 
   if (window.hasMoved) {
     frameCount++
