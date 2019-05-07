@@ -141,6 +141,7 @@ const onSignIn = function (event) {
 }
 
 const signInSuccess = function (data) {
+  onGetCharacters()
   isCharCreatedTrue()
   $('#accounts-page').show()
   $('#loginForms').hide()
@@ -148,7 +149,7 @@ const signInSuccess = function (data) {
   $('form').trigger('reset')
   $('#accountError').text('Sign in success!')
   store.user = data.user
-  canCreateCharacter()
+  setTimeout(canCreateCharacter, 1000)
 }
 
 const signInError = function () {
@@ -230,7 +231,6 @@ const onGetMessages = (event) => {
   getMessages()
     .then(getMessageSuccess)
     .catch()
-  setTimeout(onGetMessages, 500)
 }
 
 const getMessages = function () {

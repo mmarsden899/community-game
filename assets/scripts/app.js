@@ -45,9 +45,7 @@ let img3 = new Image()
 
 store.userCharacter = {}
 store.userCharacter.character = 0
-let onGetChar = setInterval(test.onGetCharacters, 1000)
 // let onUpdateChar = setInterval(test.onUpdateCharacter, 1000)
-test.onGetMessages()
 for (let i = 0; i < 100; i++) {
   let star = '<div class="star" style="animation: twinkle '+ ((Math.random()*5) + 5)+'s linear '+((Math.random()*5) + 5)+'s infinite; top: '+Math.random()*$(window).height()/2+'px; left: '+Math.random()*$(window).width()+'px;"></div>';
   $('.modal').append(star)
@@ -257,11 +255,13 @@ function moveCharacter (deltaX, deltaY, direction, stringDirection) {
 const setHTTPRequests = function () {
   window.getCharInt = setInterval(test.onGetCharacters, 1000)
   window.updateCharInt = setInterval(test.onUpdateCharacter, 1000)
+  window.getMess = setInterval(test.onGetMessages, 1000)
 }
 
 const shutOffHTTPRequests = function () {
   clearInterval(window.getCharInt)
   clearInterval(window.updateCharInt)
+  clearInterval(window.getMess)
 }
 
 $(() => {
@@ -301,6 +301,5 @@ $(() => {
 })
 
 module.exports = {
-  characterSprites,
-  onGetChar
+  characterSprites
 }
