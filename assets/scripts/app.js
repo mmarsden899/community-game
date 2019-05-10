@@ -30,7 +30,7 @@ let canvas = document.querySelector('canvas')
 let ctx = canvas.getContext('2d')
 ctx.font = '15px Oxygen Mono'
 let keyPresses = {}
-let validKeys = ['w', 'a', 's', 'd']
+let validKeys = ['w', 'a', 's', 'd', 'Enter']
 
 window.currentDirection = [FACING_DOWN, 'FACING_DOWN']
 let currentLoopIndex = 0
@@ -41,6 +41,7 @@ window.positionX = 0
 window.positionY = 0
 window.user_name = ''
 window.currentPlaying = false
+window.keyPressError = true
 let img = new Image()
 let img2 = new Image()
 let img3 = new Image()
@@ -57,6 +58,7 @@ for (let i = 0; i < 100; i++) {
 let speech = new Image()
 let speech2 = new Image()
 let speech3 = new Image()
+let error = new Image()
 
 let otherUser
 
@@ -87,13 +89,12 @@ store.cantPress = false
 window.addEventListener('keydown', keyDownListener)
 function keyDownListener (event) {
   keyPresses[event.key] = true
-  if (!keyPresses.w && !keyPresses.a && !keyPresses.s && !keyPresses.d && !store.cantPress) {
-    console.log('wtf')
+  if (!keyPresses.w && !keyPresses.a && !keyPresses.s && !keyPresses.d && !keyPresses.Enter && !store.cantPress) {
     keyPresses[event.key] = false
+    window.keyPressError = true
+  } else {
+    window.keyPressError = false
   }
-  // if (validKeys.some(isValidKey) === false) {
-  //   console.log('wait what')
-  // }
 }
 
 window.addEventListener('click', mouseOverListener)
@@ -137,7 +138,11 @@ function loadImage () {
   speech3.src = 'https://i.imgur.com/xoWbu6X.png'
   speech3.onload = function () {
     window.requestAnimationFrame(gameLoop)
-}
+  }
+  error.src = 'https://i.imgur.com/5wdNwEB.png'
+  error.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
 }
 
 
@@ -194,6 +199,9 @@ function gameLoop () {
     window.hasMoved = true
   }
 
+  if (keyPresses.Enter) {
+    console.log('oh heyyyyyyyy')
+  }
 
   if (window.hasMoved) {
     frameCount++
@@ -258,6 +266,13 @@ function gameLoop () {
     ctx.fillText(window.user_name, window.positionX - (window.user_name.length * 1.75), window.positionY - 10)
     drawFrame(window.sprite, CYCLE_LOOP[currentLoopIndex], window.currentDirection[0], window.positionX, window.positionY)
     window.requestAnimationFrame(gameLoop)
+    if (window.keyPressError) {
+      ctx.drawImage(error, canvas.width / 2 - error.width / 2, canvas.height - 100)
+      ctx.fillText('Please use w,a,s or d', canvas.width / 2 - 100, canvas.height - 60)
+      ctx.fillText('to move', canvas.width / 2 - 35, canvas.height - 40)
+    } else {
+      ctx.fillText('', window.positionX, window.positionY)
+    }
   }
 }
 

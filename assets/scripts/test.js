@@ -72,6 +72,7 @@ const createCharacterSuccess = function (data) {
   window.positionY = store.userCharacter.character.y
   window.user_name = store.userCharacter.character.user_name
   window.id = store.userCharacter.character.id
+  window.sprite = store.userCharacter.character.spritesheet
   $('#create-character').hide()
   $('#destroychar').show()
   $('#accountError').text('Character created!')
@@ -114,7 +115,7 @@ const onUpdateCharacter = function () {
 // character MISC
 const isCharCreatedTrue = function () {
   if (window.charCreated === true) {
-      console.log('suh')
+    console.log('suh')
   } else {
     setTimeout(isCharCreatedTrue, 500)
   }
