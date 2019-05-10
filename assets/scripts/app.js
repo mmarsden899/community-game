@@ -9,6 +9,7 @@
 const test = require('./test')
 const store = require('./store')
 const moment = require('moment')
+const authEvents = require('./auth/events')
 
 const SCALE = 1
 const WIDTH = 60
@@ -314,25 +315,20 @@ $(() => {
   $('#back-to-login').on('click', test.backToLogin)
   $('#loginToSignUp').on('click', test.loginSignUp)
   $('#passtoAccount').on('click', test.passToAccount)
-  $('#logout').on('click', test.unload)
-  $('#logout').on('click', test.onLogOut)
-  $('#change-password-form').on('submit', test.onChangePass)
   $('#change-password').on('click', test.toChangePass)
   $('#signUpForm').hide()
   $('#create-character').hide()
   $('#create-character').on('click', test.onCreateCharacter)
-  $('#sign-in').on('submit', test.onSignIn)
   $('#play').on('click', test.hideModal)
   $('#play').on('click', gameLoop)
   $('#play').on('click', test.onUpdateCharacter)
   $('#play').on('click', setHTTPRequests)
   $('#sign-in').on('submit', test.onGetMessages)
   $('#updatechar').on('click', test.isCharCreatedTrue)
-  $('#sign-up').on('submit', test.onSignUp)
   $('#text-submit').on('submit', test.onSendText)
   $('#destroychar').on('click', test.onDestroyCharacter)
   $('#tictac').on('click', test.onTicTac)
-  $(window).on('unload', test.unLoad)
+  authEvents.addHandlers()
 })
 
 module.exports = {

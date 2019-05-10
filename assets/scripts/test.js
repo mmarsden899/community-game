@@ -130,93 +130,6 @@ const updateCharacterFailure = function (data) {
 //  console.log('update character failure with ' + JSON.stringify(data))
 }
 
-// Auth API
-const signIn = function (data) {
-  return $.ajax({
-    url: config.apiUrl + '/sign-in',
-    method: 'POST',
-    data
-    // data: data
-  })
-}
-
-// Auth Events
-const onSignIn = function (event) {
-  event.preventDefault()
-  const data = getFormFields(event.target)
-  signIn(data)
-    .then(signInSuccess)
-    .catch(signInError)
-}
-// Auth UI
-const signInSuccess = function (data) {
-  onGetCharacters()
-  isCharCreatedTrue()
-  $('#accounts-page').show()
-  $('#loginForms').hide()
-  $('#signInError').text(' ')
-  $('form').trigger('reset')
-  $('#accountError').text('Sign in success!')
-  store.user = data.user
-  console.log('=======================')
-  console.log(moment(store.user.updated_at).format('MMMM Do YYYY, h:mm:ss a'))
-  setTimeout(canCreateCharacter, 1000)
-}
-// Auth UI
-const signInError = function () {
-  $('form').trigger('reset')
-  $('#signInError').text('Sign in error. Please try again')
-}
-// Auth API
-const signUp = function (data) {
-  return $.ajax({
-    url: config.apiUrl + '/sign-up',
-    method: 'POST',
-    data
-  })
-}
-
-// Auth Events
-const onSignUp = function (event) {
-  event.preventDefault()
-  const data = getFormFields(event.target)
-  signUp(data)
-    .then(signUpSuccess)
-    .catch(signUpFailure)
-}
-
-
-// Auth UI
-const signUpSuccess = function (data) {
-  $('#loginForms').show()
-  $('#signUpForm').hide()
-  $('form').trigger('reset')
-  $('#signInError').text('Sign-up success')
-}
-
-// Auth UI
-const signUpFailure = function () {
-  $('form').trigger('reset')
-  $('#signUpError').text('Sign-up failed. Please try again.')
-}
-
-// Misc UNLOAD feature
-const unLoad = function () {
-  return $.ajax({
-    url: config.apiUrl + `/characters/${window.id}`,
-    async: false,
-    method: 'PATCH',
-    headers: {
-      Authorization: 'Token token=' + store.user.token
-    },
-    data: {
-      'character': {
-        'active': false
-      }
-    }
-  })
-}
-
 // Character MISC
 const canCreateCharacter = function () {
   const userIDArray = []
@@ -332,77 +245,12 @@ const backToLogin = function () {
   $('#signUpForm').hide()
   $('#loginForms').show()
 }
-// Auth API
-const logOut = function () {
-  return $.ajax({
-    url: config.apiUrl + '/sign-out',
-    method: 'DELETE',
-    headers: {
-      Authorization: 'Token token=' + store.user.token
-    }
-})
-}
-
-// Auth UI
-const logoutSuccess = function () {
-  $('#accounts-page').hide()
-  $('#loginForms').show()
-  $('#alreadyplayed').hide()
-  store.user.token = null
-}
-
-// AUTH UI
-const logoutFailure = function () {
-}
-
-// Auth Events
-const onLogOut = function () {
-  logOut()
-    .then(logoutSuccess)
-    .catch(logoutFailure)
-}
 
 // MISC SHOW DIVS
 const toChangePass = function () {
   $('#accounts-page').hide()
   $('#accountError').text(' ')
   $('#changepass').show()
-}
-
-// Auth Events
-const onChangePass = function (event) {
-  event.preventDefault()
-  const data = getFormFields(event.target)
-  changePass(data)
-    .then(onChangePassSuccess)
-    .catch(onChangePassFailure)
-}
-
-
-// Auth UI
-const onChangePassSuccess = function (data) {
-  $('#changepass').hide()
-  $('#accounts-page').show()
-  $('#accountError').css('color', 'white')
-  $('#accountError').text('Password succesfully changed')
-}
-
-// Auth UI
-const onChangePassFailure = function () {
-  $('#password-error').text('Something went wrong. Please try again')
-}
-
-
-// Auth Events
-const changePass = function (data) {
-  return $.ajax({
-    url: config.apiUrl + '/change-password',
-    method: 'PATCH',
-    headers: {
-      Authorization: 'Token token=' + store.user.token
-    },
-    data
-  })
 }
 
 // MISC SHOW DIVS
@@ -438,15 +286,9 @@ module.exports = {
   createCharacter,
   onCreateCharacter,
   createCharacterSuccess,
-  signIn,
-  onSignIn,
-  signInSuccess,
   onUpdateCharacter,
   updateCharacter,
   isCharCreatedTrue,
-  unLoad,
-  onSignUp,
-  signUp,
   getMessages,
   onGetMessages,
   getMessageSuccess,
@@ -456,9 +298,7 @@ module.exports = {
   hideModal,
   loginSignUp,
   backToLogin,
-  onLogOut,
   toChangePass,
-  onChangePass,
   passToAccount,
   playedToPlay,
   playToAccount,
