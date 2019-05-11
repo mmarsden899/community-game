@@ -2,8 +2,6 @@ const ui = require('./ui')
 const api = require('./api')
 const store = require('../store')
 
-window.charCreated = false
-
 const gameIsBeingPlayed = true
 
 // character Events

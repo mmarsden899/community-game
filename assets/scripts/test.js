@@ -1,54 +1,3 @@
-const config = require('./config')
-const store = require('./store')
-
-
-// Messages UI
-const getMessageSuccess = (data) => {
-  store.allMessages = data
-}
-// Messages UI
-const onGetMessages = (event) => {
-  getMessages()
-    .then(getMessageSuccess)
-    .catch()
-}
-// Messages API
-const getMessages = function () {
-  return $.ajax({
-    url: config.apiUrl + '/messages',
-    method: 'GET',
-    headers: {
-    }
-  })
-}
-
-// Messages API
-const onSendText = function (event) {
-  event.preventDefault()
-  const data = $('#text-input').val()
-  $('form').trigger('reset')
-  sendText(data)
-    .then()
-    .catch()
-}
-// Messages API
-const sendText = function (data) {
-  return $.ajax({
-    url: config.apiUrl + '/messages',
-    method: 'POST',
-    headers: {
-      Authorization: 'Token token=' + store.user.token
-    },
-    data: {
-      'message': {
-        'user_id': store.user.id,
-        'user_name': window.user_name,
-        'text': data
-      }
-    }
-  })
-}
-
 // MISC HIDE MODAL
 const hideModal = function () {
   $('.modal').hide()
@@ -104,10 +53,6 @@ const onTicTac = function () {
 }
 
 module.exports = {
-  getMessages,
-  onGetMessages,
-  getMessageSuccess,
-  onSendText,
   hideModal,
   loginSignUp,
   backToLogin,

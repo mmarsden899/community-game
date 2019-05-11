@@ -11,6 +11,7 @@ const store = require('./store')
 const moment = require('moment')
 const authEvents = require('./auth/events')
 const charEvents = require('./character/events')
+const messageEvents = require('./message/events')
 
 const SCALE = 1
 const WIDTH = 60
@@ -33,6 +34,7 @@ let ctx = canvas.getContext('2d')
 ctx.font = '15px Oxygen Mono'
 let keyPresses = {}
 let validKeys = ['w', 'a', 's', 'd', 'Enter']
+window.charCreated = false
 
 window.currentDirection = [FACING_DOWN, 'FACING_DOWN']
 let currentLoopIndex = 0
@@ -146,13 +148,13 @@ function loadImage () {
   }
 }
 
-
-
 const showMessageOnRender = function () {
   for (let i = 0; i < store.allMessages.messages.length; i++) {
-    if (store.allMessages.messages[i].user_id === store.user.id &&
+    if (store.allMessages.messages[i].user_id === window.id &&
       moment(store.allMessages.messages[i].created_at).add(10, 'seconds').format() >=
       (moment().format())) {
+        console.log('jjjjjjjjjjjjjj')
+        console.log(store.allMessages.messages[i].text)
       if (store.allMessages.messages[i].text.length > 20) {
         ctx.drawImage(speech, window.positionX - 80, window.positionY - 50)
         ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 31)
@@ -225,6 +227,8 @@ function gameLoop () {
           if (store.allMessages.messages[i].user_id === store.otherCharacters.characters[key].user_id &&
             moment(store.allMessages.messages[i].created_at).add(10, 'seconds').format() >=
             (moment().format())) {
+              console.log('oooooooooooooooooooooooo')
+              console.log(store.allMessages.messages[i].text)
             if (store.allMessages.messages[i].text.length > 20) {
               ctx.drawImage(speech, store.otherCharacters.characters[key].x - 80, store.otherCharacters.characters[key].y - 50)
               // ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 31)
@@ -289,7 +293,7 @@ function moveCharacter (deltaX, deltaY, direction, stringDirection) {
 const setHTTPRequests = function () {
   window.getCharInt = setInterval(charEvents.onGetCharacters, 1000)
   window.updateCharInt = setInterval(charEvents.onUpdateCharacter, 1000)
-  window.getMess = setInterval(test.onGetMessages, 1000)
+  window.getMess = setInterval(messageEvents.onGetMessages, 1000)
 }
 
 const shutOffHTTPRequests = function () {
@@ -306,7 +310,7 @@ $(() => {
   $('#changepass').hide()
   $('#alreadyplayed').hide()
   $('#signUpForm').hide()
-  $('#see-character').on('click', test.onViewCharacter)
+  // $('#see-character').on('click', test.onViewCharacter)
   $('#playtoAccount').on('click', test.playToAccount)
   $('#playtoAccount').on('click', shutOffHTTPRequests)
   $('#alreadyplayed').on('click', test.playedToPlay)
@@ -318,11 +322,10 @@ $(() => {
   $('#play').on('click', test.hideModal)
   $('#play').on('click', gameLoop)
   $('#play').on('click', setHTTPRequests)
-  $('#sign-in').on('submit', test.onGetMessages)
-  $('#text-submit').on('submit', test.onSendText)
-  $('#tictac').on('click', test.onTicTac)
+  // $('#tictac').on('click', test.onTicTac)
   authEvents.addHandlers()
   charEvents.addHandlers()
+  messageEvents.addHandlers()
 })
 
 module.exports = {
