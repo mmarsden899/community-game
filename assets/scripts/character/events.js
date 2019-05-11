@@ -6,10 +6,7 @@ const gameIsBeingPlayed = true
 
 // character Events
 const onUpdateCharacter = function () {
-  console.log('is update character firing?')
-  console.log(window.id)
   api.updateCharacter()
-    .then(console.log('not getting here huh'))
     .then(ui.updateCharacterSuccess)
     .catch(ui.updateCharacterFailure)
 }
@@ -19,6 +16,7 @@ const onDestroyCharacter = function (event) {
   event.preventDefault()
   api.destroyCharacter()
     .then(ui.destroyCharacterSuccess)
+    .then(canCreateCharacter)
     .catch()
 }
 
@@ -53,7 +51,6 @@ const canCreateCharacter = function () {
 // character MISC
 const isCharCreatedTrue = function () {
   if (window.charCreated === true) {
-    console.log('suh')
   } else {
     setTimeout(isCharCreatedTrue, 500)
   }
@@ -66,7 +63,6 @@ const onGetCharacters = function () {
       .then(ui.showCharacterSuccess)
       .catch(ui.showCharacterFailure)
   } else {
-    console.log('game is not being played currently')
   }
 }
 

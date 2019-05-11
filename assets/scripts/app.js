@@ -102,7 +102,6 @@ function keyDownListener (event) {
 
 window.addEventListener('click', mouseOverListener)
 function mouseOverListener (event) {
-  console.log(event)
   if (event.target.localName === 'input') {
     store.cantPress = true
   } else {
@@ -153,8 +152,6 @@ const showMessageOnRender = function () {
     if (store.allMessages.messages[i].user_id === window.id &&
       moment(store.allMessages.messages[i].created_at).add(10, 'seconds').format() >=
       (moment().format())) {
-        console.log('jjjjjjjjjjjjjj')
-        console.log(store.allMessages.messages[i].text)
       if (store.allMessages.messages[i].text.length > 20) {
         ctx.drawImage(speech, window.positionX - 80, window.positionY - 50)
         ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 31)
@@ -201,7 +198,7 @@ function gameLoop () {
   }
 
   if (keyPresses.Enter) {
-    console.log('oh heyyyyyyyy')
+
   }
 
   if (window.hasMoved) {
@@ -227,8 +224,6 @@ function gameLoop () {
           if (store.allMessages.messages[i].user_id === store.otherCharacters.characters[key].user_id &&
             moment(store.allMessages.messages[i].created_at).add(10, 'seconds').format() >=
             (moment().format())) {
-              console.log('oooooooooooooooooooooooo')
-              console.log(store.allMessages.messages[i].text)
             if (store.allMessages.messages[i].text.length > 20) {
               ctx.drawImage(speech, store.otherCharacters.characters[key].x - 80, store.otherCharacters.characters[key].y - 50)
               // ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 31)

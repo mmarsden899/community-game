@@ -1,5 +1,4 @@
 const store = require('../store')
-const moment = require('moment')
 const charEvents = require('./../character/events')
 
 // Auth UI
@@ -12,8 +11,6 @@ const signInSuccess = function (data) {
   $('form').trigger('reset')
   $('#accountError').text('Sign in success!')
   store.user = data.user
-  console.log('=======================')
-  console.log(moment(store.user.updated_at).format('MMMM Do YYYY, h:mm:ss a'))
   setTimeout(charEvents.canCreateCharacter, 1000)
 }
 

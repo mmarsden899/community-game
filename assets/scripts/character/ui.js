@@ -35,17 +35,14 @@ const createCharacterFailure = function (data) {
 
 // character UI
 const updateCharacterSuccess = function (data) {
-//  console.log('update character success with' + data)
 }
 
 // character UI
 const updateCharacterFailure = function (data) {
-//  console.log('update character failure with ' + JSON.stringify(data))
 }
 
 // Characters UI
 const destroyCharacterSuccess = function () {
-  events.canCreateCharacter()
   $('#play').hide()
   $('#destroychar').hide()
   $('#create-character').show()
