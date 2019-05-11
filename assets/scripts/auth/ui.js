@@ -1,11 +1,11 @@
 const store = require('../store')
 const moment = require('moment')
-const test = require('../test')
+const charEvents = require('./../character/events')
 
 // Auth UI
 const signInSuccess = function (data) {
-  test.onGetCharacters()
-  test.isCharCreatedTrue()
+  charEvents.onGetCharacters()
+  charEvents.isCharCreatedTrue()
   $('#accounts-page').show()
   $('#loginForms').hide()
   $('#signInError').text(' ')
@@ -14,7 +14,7 @@ const signInSuccess = function (data) {
   store.user = data.user
   console.log('=======================')
   console.log(moment(store.user.updated_at).format('MMMM Do YYYY, h:mm:ss a'))
-  setTimeout(test.canCreateCharacter, 1000)
+  setTimeout(charEvents.canCreateCharacter, 1000)
 }
 
 // Auth UI

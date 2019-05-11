@@ -10,6 +10,7 @@ const test = require('./test')
 const store = require('./store')
 const moment = require('moment')
 const authEvents = require('./auth/events')
+const charEvents = require('./character/events')
 
 const SCALE = 1
 const WIDTH = 60
@@ -54,7 +55,6 @@ for (let i = 0; i < 100; i++) {
   let star = '<div class="star" style="animation: twinkle '+ ((Math.random()*5) + 5)+'s linear '+((Math.random()*5) + 5)+'s infinite; top: '+Math.random()*$(window).height()/2+'px; left: '+Math.random()*$(window).width()+'px;"></div>';
   $('.modal').append(star)
 }
-
 
 let speech = new Image()
 let speech2 = new Image()
@@ -166,10 +166,8 @@ const showMessageOnRender = function () {
         ctx.fillText(' ', window.positionX + 21.5, window.positionY - 20)
       }
     }
+  }
 }
-}
-
-
 
 function drawFrame (num, frameX, frameY, canvasX, canvasY) {
   ctx.drawImage(imgWhich(num),
@@ -289,8 +287,8 @@ function moveCharacter (deltaX, deltaY, direction, stringDirection) {
 }
 
 const setHTTPRequests = function () {
-  window.getCharInt = setInterval(test.onGetCharacters, 1000)
-  window.updateCharInt = setInterval(test.onUpdateCharacter, 1000)
+  window.getCharInt = setInterval(charEvents.onGetCharacters, 1000)
+  window.updateCharInt = setInterval(charEvents.onUpdateCharacter, 1000)
   window.getMess = setInterval(test.onGetMessages, 1000)
 }
 
@@ -307,6 +305,7 @@ $(() => {
   $('#accounts-page').hide()
   $('#changepass').hide()
   $('#alreadyplayed').hide()
+  $('#signUpForm').hide()
   $('#see-character').on('click', test.onViewCharacter)
   $('#playtoAccount').on('click', test.playToAccount)
   $('#playtoAccount').on('click', shutOffHTTPRequests)
@@ -316,19 +315,14 @@ $(() => {
   $('#loginToSignUp').on('click', test.loginSignUp)
   $('#passtoAccount').on('click', test.passToAccount)
   $('#change-password').on('click', test.toChangePass)
-  $('#signUpForm').hide()
-  $('#create-character').hide()
-  $('#create-character').on('click', test.onCreateCharacter)
   $('#play').on('click', test.hideModal)
   $('#play').on('click', gameLoop)
-  $('#play').on('click', test.onUpdateCharacter)
   $('#play').on('click', setHTTPRequests)
   $('#sign-in').on('submit', test.onGetMessages)
-  $('#updatechar').on('click', test.isCharCreatedTrue)
   $('#text-submit').on('submit', test.onSendText)
-  $('#destroychar').on('click', test.onDestroyCharacter)
   $('#tictac').on('click', test.onTicTac)
   authEvents.addHandlers()
+  charEvents.addHandlers()
 })
 
 module.exports = {
