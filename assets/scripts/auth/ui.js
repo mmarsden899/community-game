@@ -9,6 +9,7 @@ const signInSuccess = function (data) {
   $('#signInError').text(' ')
   $('form').trigger('reset')
   $('#accountError').text('Sign in success!')
+  $('#accountError').css('color', 'white')
   store.user = data.user
   setTimeout(charEvents.canCreateCharacter, 1000)
 }
@@ -17,12 +18,14 @@ const signInSuccess = function (data) {
 const signUpFailure = function () {
   $('form').trigger('reset')
   $('#signUpError').text('Sign-up failed. Please try again.')
+  $('#signUpError').css('color', 'red')
 }
 
 // Auth UI
 const signInError = function () {
   $('form').trigger('reset')
   $('#signInError').text('Sign in error. Please try again')
+  $('#signInError').css('color', 'red')
 }
 
 // Auth UI
@@ -31,6 +34,7 @@ const signUpSuccess = function (data) {
   $('#signUpForm').hide()
   $('form').trigger('reset')
   $('#signInError').text('Sign-up success')
+  $('#signInError').css('color', 'white')
 }
 
 // Auth UI
@@ -43,6 +47,8 @@ const logoutSuccess = function () {
 
 // AUTH UI
 const logoutFailure = function () {
+  $('#accountError').text('Logout Failed')
+  $('#accountError').css('color', 'red')
 }
 
 // Auth UI
@@ -56,6 +62,7 @@ const onChangePassSuccess = function (data) {
 // Auth UI
 const onChangePassFailure = function () {
   $('#password-error').text('Something went wrong. Please try again')
+  $('#password-error').css('color', 'red')
 }
 
 module.exports = {

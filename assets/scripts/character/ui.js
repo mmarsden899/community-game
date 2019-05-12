@@ -3,12 +3,16 @@ const events = require('./events')
 
 // character UI
 const showCharacterFailure = function (data) {
+  $('#serverstatus').html('Currently Disconnected')
+  $('#serverstatus').css('color', 'red')
 }
 
 // character UI
 const showCharacterSuccess = function (data) {
   store.otherCharacters = data
   store.character = data.characters[window.userIDIndex]
+  $('#serverstatus').html('Currently Connected')
+  $('#serverstatus').css('color', 'white')
 }
 
 // character UI
@@ -23,6 +27,7 @@ const createCharacterSuccess = function (data) {
   $('#create-character').hide()
   $('#destroychar').show()
   $('#accountError').text('Character created!')
+  $('#accountError').css('color', 'white')
   if (!window.currentPlaying) {
     $('#play').show()
   } else {
@@ -32,15 +37,20 @@ const createCharacterSuccess = function (data) {
 
 // character UI
 const createCharacterFailure = function (data) {
-
+  $('#accountError').text('Something went wrong!')
+  $('#accountError').css('color', 'red')
 }
 
 // character UI
 const updateCharacterSuccess = function (data) {
+  $('#serverstatus').html('Currently Connected')
+  $('#serverstatus').css('color', 'white')
 }
 
 // character UI
 const updateCharacterFailure = function (data) {
+  $('#serverstatus').html('Currently Disconnected')
+  $('#serverstatus').css('color', 'red')
 }
 
 // Characters UI
@@ -50,6 +60,13 @@ const destroyCharacterSuccess = function () {
   $('#destroychar').hide()
   $('#create-character').show()
   $('#accountError').text('Character deleted')
+  $('#accountError').css('color', 'white')
+  setTimeout(events.canCreateCharacter, 1000)
+}
+
+const destroyCharacterFailure = function () {
+  $('#accountError').text('Something went wrong')
+  $('#accountError').css('color', 'red')
   setTimeout(events.canCreateCharacter, 1000)
 }
 
@@ -60,5 +77,6 @@ module.exports = {
   createCharacterFailure,
   updateCharacterSuccess,
   updateCharacterFailure,
-  destroyCharacterSuccess
+  destroyCharacterSuccess,
+  destroyCharacterFailure
 }

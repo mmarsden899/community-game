@@ -16,7 +16,7 @@ const onDestroyCharacter = function (event) {
   event.preventDefault()
   api.destroyCharacter()
     .then(ui.destroyCharacterSuccess)
-    .catch()
+    .catch(ui.destroyCharacterFailure)
 }
 
 // character Events
