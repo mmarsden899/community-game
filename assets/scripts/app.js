@@ -13,19 +13,15 @@ const authEvents = require('./auth/events')
 const charEvents = require('./character/events')
 const messageEvents = require('./message/events')
 
-const SCALE = 1
-const WIDTH = 60
-const HEIGHT = 60
-const SCALED_WIDTH = SCALE * WIDTH
-const SCALED_HEIGHT = SCALE * HEIGHT
-const CYCLE_LOOP = [0, 1, 0, 2]
-const OTHER_CYCLE_LOOP = [0, 1, 0, 2]
-const FACING_DOWN = 0
-const FACING_UP = 1
-const FACING_LEFT = 2
-const FACING_RIGHT = 3
-const FRAME_LIMIT = 12
-const MOVEMENT_SPEED = 1.75
+const playerSize = 64
+const frameLoop = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+const onlineFrameLoop = [0, 1, 0, 2]
+const faceSouth = 10
+const faceNorth = 8
+const faceWest = 9
+const faceRight = 11
+const frameLimit = 7
+const playerSpeed = 1.75
 
 const characterSprites = ['https://i.imgur.com/UXlqiz6.png', 'https://i.imgur.com/NFU0D5v.png', 'https://i.imgur.com/cQf38Yp.png']
 
@@ -36,7 +32,7 @@ let keyPresses = {}
 let validKeys = ['w', 'a', 's', 'd', 'Enter']
 window.charCreated = false
 
-window.currentDirection = [FACING_DOWN, 'FACING_DOWN']
+window.currentDirection = [faceSouth, 'faceSouth']
 let currentLoopIndex = 0
 let otherCurrentLoopIndex = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 let frameCount = 0
@@ -49,6 +45,9 @@ window.keyPressError = true
 let img = new Image()
 let img2 = new Image()
 let img3 = new Image()
+let img4 = new Image()
+let img5 = new Image()
+let img6 = new Image()
 
 store.userCharacter = {}
 store.userCharacter.character = 0
@@ -62,26 +61,33 @@ let speech = new Image()
 let speech2 = new Image()
 let speech3 = new Image()
 let error = new Image()
+let transparent =  new Image()
 
 let otherUser
 
 const directionMethod = function (charDirect) {
-  if (charDirect === 'FACING_UP') {
-    otherUser = FACING_UP
-  } else if (charDirect === 'FACING_DOWN') {
-    otherUser = FACING_DOWN
-  } else if (charDirect === 'FACING_RIGHT') {
-    otherUser = FACING_RIGHT
+  if (charDirect === 'faceNorth') {
+    otherUser = faceNorth
+  } else if (charDirect === 'faceSouth') {
+    otherUser = faceSouth
+  } else if (charDirect === 'faceRight') {
+    otherUser = faceRight
   } else {
-    otherUser = FACING_LEFT
+    otherUser = faceWest
   }
   return otherUser
 }
 let value
 const imgWhich = function (num) {
-  if (num === '3') {
+  if (num === '6') {
+    value = img6
+  } else if (num === '5') {
+    value = img5
+  } else if (num === '4') {
+    value = img4
+  } else if (num === '3') {
     value = img3
-  } else if (num === '2') {
+  } else if (num === '1') {
     value = img2
   } else {
     value = img
@@ -102,6 +108,7 @@ function keyDownListener (event) {
 
 window.addEventListener('click', mouseOverListener)
 function mouseOverListener (event) {
+  console.log(event)
   if (event.target.localName === 'input') {
     store.cantPress = true
   } else {
@@ -115,18 +122,33 @@ function keyUpListener (event) {
 }
 
 function loadImage () {
-  img.src = 'https://i.imgur.com/UXlqiz6.png'
+  img.src = 'https://i.imgur.com/WRR1pK6.png'
   img.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
 
-  img2.src = 'https://i.imgur.com/NFU0D5v.png'
+  img2.src = 'https://i.imgur.com/LLnnye4.png'
   img2.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
 
-  img3.src = 'https://i.imgur.com/cQf38Yp.png'
+  img3.src = 'https://i.imgur.com/kGzATwp.png'
   img3.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+
+  img4.src = 'https://i.imgur.com/GR88Vnw.png'
+  img4.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+
+  img5.src = 'https://i.imgur.com/kWnpSoi.png'
+  img5.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+
+  img6.src = 'https://i.imgur.com/UQcPC8d.png'
+  img6.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
   speech.src = 'https://i.imgur.com/wa090e7.png'
@@ -145,22 +167,29 @@ function loadImage () {
   error.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
+  transparent.src = 'https://i.imgur.com/82J5YRe.png'
+  transparent.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
 }
 
 const showMessageOnRender = function () {
   for (let i = 0; i < store.allMessages.messages.length; i++) {
-    if (store.allMessages.messages[i].user_id === window.id &&
+    if (store.allMessages.messages[i].user_id === store.user.id &&
       moment(store.allMessages.messages[i].created_at).add(10, 'seconds').format() >=
       (moment().format())) {
       if (store.allMessages.messages[i].text.length > 20) {
-        ctx.drawImage(speech, window.positionX - 80, window.positionY - 50)
-        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 31)
+        // console.log('hey the length of this string is: ', store.allMessages.messages[i].text.length)
+        ctx.drawImage(speech, window.positionX - (speech.width / 2) + 32, window.positionY - 50)
+        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 15 / 4) + 32, window.positionY - 31)
       } else if (store.allMessages.messages[i].text.length > 10) {
-        ctx.drawImage(speech2, window.positionX - 55, window.positionY - 50)
-        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 30)
+        // console.log('hey the length of this string is: ', store.allMessages.messages[i].text.length)
+        ctx.drawImage(speech2, window.positionX - (speech2.width / 2) + 32, window.positionY - 50)
+        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 15 / 4) + 32, window.positionY - 30)
       } else if (store.allMessages.messages[i].text.length > 0) {
-        ctx.drawImage(speech3, window.positionX - 25, window.positionY - 50)
-        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 30)
+        // console.log('hey the length of this string is: ', store.allMessages.messages[i].text.length)
+        ctx.drawImage(speech3, window.positionX - (speech3.width / 2) + 32, window.positionY - 50)
+        ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 15 / 4) + 32, window.positionY - 30)
       } else {
         ctx.fillText(' ', window.positionX + 21.5, window.positionY - 20)
       }
@@ -170,8 +199,8 @@ const showMessageOnRender = function () {
 
 function drawFrame (num, frameX, frameY, canvasX, canvasY) {
   ctx.drawImage(imgWhich(num),
-    frameX * WIDTH, frameY * HEIGHT, WIDTH, HEIGHT,
-    canvasX, canvasY, SCALED_WIDTH, SCALED_HEIGHT)
+    frameX * playerSize, frameY * playerSize, playerSize, playerSize,
+    canvasX, canvasY, playerSize * 0.95, playerSize * 0.95)
 }
 
 loadImage()
@@ -182,31 +211,31 @@ function gameLoop () {
   window.hasMoved = false
 
   if (keyPresses.w) {
-    moveCharacter(0, -MOVEMENT_SPEED, FACING_UP, 'FACING_UP')
+    moveCharacter(0, -playerSpeed, faceNorth, 'faceNorth')
     window.hasMoved = true
   } else if (keyPresses.s) {
-    moveCharacter(0, MOVEMENT_SPEED, FACING_DOWN, 'FACING_DOWN')
+    moveCharacter(0, playerSpeed, faceSouth, 'faceSouth')
     window.hasMoved = true
   }
 
   if (keyPresses.a) {
-    moveCharacter(-MOVEMENT_SPEED, 0, FACING_LEFT, 'FACING_LEFT')
+    moveCharacter(-playerSpeed, 0, faceWest, 'faceWest')
     window.hasMoved = true
   } else if (keyPresses.d) {
-    moveCharacter(MOVEMENT_SPEED, 0, FACING_RIGHT, 'FACING_RIGHT')
+    moveCharacter(playerSpeed, 0, faceRight, 'faceRight')
     window.hasMoved = true
   }
 
   if (keyPresses.Enter) {
-
+    console.log('oh heyyyyyyyy')
   }
 
   if (window.hasMoved) {
     frameCount++
-    if (frameCount >= FRAME_LIMIT) {
+    if (frameCount >= frameLimit) {
       frameCount = 0
       currentLoopIndex++
-      if (currentLoopIndex >= CYCLE_LOOP.length) {
+      if (currentLoopIndex >= frameLoop.length) {
         currentLoopIndex = 0
       }
     }
@@ -225,15 +254,15 @@ function gameLoop () {
             moment(store.allMessages.messages[i].created_at).add(10, 'seconds').format() >=
             (moment().format())) {
             if (store.allMessages.messages[i].text.length > 20) {
-              ctx.drawImage(speech, store.otherCharacters.characters[key].x - 80, store.otherCharacters.characters[key].y - 50)
+              ctx.drawImage(speech, store.otherCharacters.characters[key].x - (speech.width / 2), store.otherCharacters.characters[key].y - 50)
               // ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 31)
-              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 2.45), store.otherCharacters.characters[key].y - 31)
+              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 15 / 2), store.otherCharacters.characters[key].y - 31)
             } else if (store.allMessages.messages[i].text.length > 10) {
-              ctx.drawImage(speech2, store.otherCharacters.characters[key].x - 55, store.otherCharacters.characters[key].y - 50)
-              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 2.45), store.otherCharacters.characters[key].y - 31)
+              ctx.drawImage(speech2, store.otherCharacters.characters[key].x - (speech2.width / 2), store.otherCharacters.characters[key].y - 50)
+              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 15 / 2), store.otherCharacters.characters[key].y - 31)
             } else if (store.allMessages.messages[i].text.length > 0) {
-              ctx.drawImage(speech3, store.otherCharacters.characters[key].x - 25, store.otherCharacters.characters[key].y - 50)
-              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 2.45), store.otherCharacters.characters[key].y - 31)
+              ctx.drawImage(speech3, store.otherCharacters.characters[key].x - (speech3.width / 2), store.otherCharacters.characters[key].y - 50)
+              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 15 / 2), store.otherCharacters.characters[key].y - 31)
             } else {
               ctx.fillText(' ', store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
             //  ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
@@ -242,27 +271,28 @@ function gameLoop () {
         }
         if (store.otherCharacters.characters[key].moving === true) {
           otherFrameCount[key]++
-          if (otherFrameCount[key] >= FRAME_LIMIT) {
-            otherFrameCount[key] = 0
+          if (otherFrameCount[key] >= frameLimit) {
+            otherFrameCount[key] = 1
             otherCurrentLoopIndex[key]++
-            if (otherCurrentLoopIndex[key] >= OTHER_CYCLE_LOOP.length) {
+            if (otherCurrentLoopIndex[key] >= onlineFrameLoop.length) {
               otherCurrentLoopIndex[key] = 0
             }
           }
         }
         if (store.otherCharacters.characters[key].moving === true) {
-          ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length * 1.75), store.otherCharacters.characters[key].y - 10)
-          drawFrame(store.otherCharacters.characters[key].spritesheet, OTHER_CYCLE_LOOP[otherCurrentLoopIndex[key]], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
+          ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length / 2), store.otherCharacters.characters[key].y - 10)
+          drawFrame(store.otherCharacters.characters[key].spritesheet, onlineFrameLoop[otherCurrentLoopIndex[key]], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
         } else {
-          ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length * 1.75), store.otherCharacters.characters[key].y - 10)
-          drawFrame(store.otherCharacters.characters[key].spritesheet, OTHER_CYCLE_LOOP[0], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
+          ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length / 2), store.otherCharacters.characters[key].y - 10)
+          drawFrame(store.otherCharacters.characters[key].spritesheet, onlineFrameLoop[0], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
         }
       }
     }
     )
+    drawFrame(window.sprite, frameLoop[currentLoopIndex], window.currentDirection[0], window.positionX, window.positionY)
+    ctx.drawImage(transparent, 0, 0)
+    ctx.fillText(window.user_name, window.positionX - (window.user_name.length / 2), window.positionY - 10)
     showMessageOnRender()
-    ctx.fillText(window.user_name, window.positionX - (window.user_name.length * 1.75), window.positionY - 10)
-    drawFrame(window.sprite, CYCLE_LOOP[currentLoopIndex], window.currentDirection[0], window.positionX, window.positionY)
     window.requestAnimationFrame(gameLoop)
     if (window.keyPressError) {
       ctx.drawImage(error, canvas.width / 2 - error.width / 2, canvas.height - 100)
@@ -275,10 +305,10 @@ function gameLoop () {
 }
 
 function moveCharacter (deltaX, deltaY, direction, stringDirection) {
-  if (window.positionX + deltaX > 0 && window.positionX + SCALED_WIDTH + deltaX < canvas.width && ((window.positionX + deltaX <= 345 || window.positionY + deltaY >= 150) || (window.positionX + deltaX >= 665 || window.positionY + deltaY >= 150))) {
+  if (window.positionX + deltaX > -15 && window.positionX + deltaX < canvas.width - 48 && ((window.positionX + deltaX <= 325 || (window.positionY + deltaY >= 135 || window.positionY + deltaY <= 83)) || (window.positionX + deltaX >= 675 || window.positionY + deltaY >= 132))) {
     window.positionX += deltaX
   }
-  if (window.positionY + deltaY > 90 && window.positionY + SCALED_HEIGHT + deltaY < canvas.height && ((window.positionX + deltaX <= 345 || window.positionY + deltaY >= 150) || (window.positionX + deltaX >= 665 || window.positionY + deltaY >= 150))) {
+  if (window.positionY + deltaY > 64 && window.positionY + deltaY < canvas.height - 64 && ((window.positionX + deltaX <= 325 || (window.positionY + deltaY >= 135 || window.positionY + deltaY <= 83)) || (window.positionX + deltaX >= 675 || window.positionY + deltaY >= 132))) {
     window.positionY += deltaY
   }
   window.currentDirection[0] = direction
