@@ -359,9 +359,9 @@ function moveCharacter (deltaX, deltaY, direction, stringDirection) {
 }
 
 const setHTTPRequests = function () {
-  window.getCharInt = setInterval(charEvents.onGetCharacters, 1000)
-  window.updateCharInt = setInterval(charEvents.onUpdateCharacter, 1000)
-  window.getMess = setInterval(messageEvents.onGetMessages, 1000)
+  window.getCharInt = setInterval(charEvents.onGetCharacters, 600)
+  window.updateCharInt = setInterval(charEvents.onUpdateCharacter, 600)
+  window.getMess = setInterval(messageEvents.onGetMessages, 600)
 }
 
 const shutOffHTTPRequests = function () {
