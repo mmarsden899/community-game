@@ -44,6 +44,7 @@ const updateCharacterFailure = function (data) {
 // Characters UI
 const destroyCharacterSuccess = function () {
   $('#play').hide()
+  $('#alreadyplayed').hide()
   $('#destroychar').hide()
   $('#create-character').show()
   $('#accountError').text('Character deleted')

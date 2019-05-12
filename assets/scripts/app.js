@@ -48,6 +48,12 @@ let img3 = new Image()
 let img4 = new Image()
 let img5 = new Image()
 let img6 = new Image()
+let img7 = new Image()
+let img8 = new Image()
+let img9 = new Image()
+let img10 = new Image()
+let img11 = new Image()
+let img12 = new Image()
 
 store.userCharacter = {}
 store.userCharacter.character = 0
@@ -79,7 +85,19 @@ const directionMethod = function (charDirect) {
 }
 let value
 const imgWhich = function (num) {
-  if (num === '6') {
+  if (num === '12') {
+    value = img12
+  } else if (num === '11') {
+    value = img11
+  } else if (num === '10') {
+    value = img10
+  } else if (num === '9') {
+    value = img9
+  } else if (num === '8') {
+    value = img8
+  } else if (num === '7') {
+    value = img7
+  } else if (num === '6') {
     value = img6
   } else if (num === '5') {
     value = img5
@@ -151,6 +169,31 @@ function loadImage () {
   img6.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
+  img7.src = 'https://i.imgur.com/EgomPir.png'
+  img7.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+  img8.src = 'https://i.imgur.com/5NBxDmg.png'
+  img8.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+  img9.src = 'https://i.imgur.com/Xqj6dOC.png'
+  img9.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+  img10.src = 'https://i.imgur.com/kt1NXYw.png'
+  img10.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+  img11.src = 'https://i.imgur.com/tv2joXf.png'
+  img11.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+  img12.src = 'https://i.imgur.com/sLM3S2d.png'
+  img12.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+
   speech.src = 'https://i.imgur.com/wa090e7.png'
   speech.onload = function () {
     window.requestAnimationFrame(gameLoop)

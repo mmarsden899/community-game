@@ -41,7 +41,11 @@ const canCreateCharacter = function () {
     window.sprite = store.otherCharacters.characters[window.userIDIndex].spritesheet
     window.id = store.otherCharacters.characters[window.userIDIndex].id
     window.charCreated = true
-    $('#play').show()
+    if (!window.currentPlaying) {
+      $('#play').show()
+    } else {
+      $('#alreadyplayed').show()
+    }
   } else {
     $('#create-character').show()
     $('#destroychar').hide()
