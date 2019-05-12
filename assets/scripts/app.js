@@ -370,8 +370,8 @@ function moveCharacter (deltaX, deltaY, direction, stringDirection) {
 }
 
 const setHTTPRequests = function () {
-  window.getCharInt = setInterval(charEvents.onGetCharacters, 600)
-  window.updateCharInt = setInterval(charEvents.onUpdateCharacter, 600)
+  window.getCharInt = setInterval(charEvents.onGetCharacters, 450)
+  window.updateCharInt = setInterval(charEvents.onUpdateCharacter, 450)
   window.getMess = setInterval(messageEvents.onGetMessages, 600)
 }
 
