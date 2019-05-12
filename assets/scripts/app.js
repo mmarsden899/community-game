@@ -296,13 +296,13 @@ function gameLoop () {
             if (store.allMessages.messages[i].text.length > 20) {
               ctx.drawImage(speech, store.otherCharacters.characters[key].x - (speech.width / 2), store.otherCharacters.characters[key].y - 50)
               // ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 31)
-              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 15 / 2), store.otherCharacters.characters[key].y - 31)
+              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 15 / 4), store.otherCharacters.characters[key].y - 31)
             } else if (store.allMessages.messages[i].text.length > 10) {
               ctx.drawImage(speech2, store.otherCharacters.characters[key].x - (speech2.width / 2), store.otherCharacters.characters[key].y - 50)
-              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 15 / 2), store.otherCharacters.characters[key].y - 31)
+              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 15 / 4), store.otherCharacters.characters[key].y - 31)
             } else if (store.allMessages.messages[i].text.length > 0) {
               ctx.drawImage(speech3, store.otherCharacters.characters[key].x - (speech3.width / 2), store.otherCharacters.characters[key].y - 50)
-              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 15 / 2), store.otherCharacters.characters[key].y - 31)
+              ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 15 / 4), store.otherCharacters.characters[key].y - 31)
             } else {
               ctx.fillText(' ', store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
             //  ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
