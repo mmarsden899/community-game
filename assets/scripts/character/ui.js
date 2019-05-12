@@ -3,7 +3,7 @@ const events = require('./events')
 
 // character UI
 const showCharacterFailure = function (data) {
-  $('#serverstatus').html('Currently Disconnected')
+  $('#serverstatus').text('Currently Disconnected')
   $('#serverstatus').css('color', 'red')
 }
 
@@ -11,7 +11,7 @@ const showCharacterFailure = function (data) {
 const showCharacterSuccess = function (data) {
   store.otherCharacters = data
   store.character = data.characters[window.userIDIndex]
-  $('#serverstatus').html('Currently Connected')
+  $('#serverstatus').text('Currently Connected')
   $('#serverstatus').css('color', 'white')
 }
 
@@ -43,13 +43,13 @@ const createCharacterFailure = function (data) {
 
 // character UI
 const updateCharacterSuccess = function (data) {
-  $('#serverstatus').html('Currently Connected')
+  $('#serverstatus').text('Currently Connected')
   $('#serverstatus').css('color', 'white')
 }
 
 // character UI
 const updateCharacterFailure = function (data) {
-  $('#serverstatus').html('Currently Disconnected')
+  $('#serverstatus').text('Currently Disconnected')
   $('#serverstatus').css('color', 'red')
 }
 
