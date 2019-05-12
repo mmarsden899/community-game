@@ -209,7 +209,7 @@ function loadImage () {
   error.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
-  transparent.src = 'https://i.imgur.com/82J5YRe.png'
+  transparent.src = 'https://i.imgur.com/nehDt1Y.png'
   transparent.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
