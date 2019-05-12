@@ -21,7 +21,7 @@ const faceNorth = 8
 const faceWest = 9
 const faceRight = 11
 const frameLimit = 7
-const playerSpeed = 1.75
+const playerSpeed = 1.65
 
 const characterSprites = ['https://i.imgur.com/UXlqiz6.png', 'https://i.imgur.com/NFU0D5v.png', 'https://i.imgur.com/cQf38Yp.png']
 
