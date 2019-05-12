@@ -54,6 +54,8 @@ let img9 = new Image()
 let img10 = new Image()
 let img11 = new Image()
 let img12 = new Image()
+let img13 = new Image()
+let img14 = new Image()
 
 store.userCharacter = {}
 store.userCharacter.character = 0
@@ -85,7 +87,11 @@ const directionMethod = function (charDirect) {
 }
 let value
 const imgWhich = function (num) {
-  if (num === '12') {
+  if (num === '14') {
+    value = img14
+  } else if (num === '13') {
+    value = img13
+  } else if (num === '12') {
     value = img12
   } else if (num === '11') {
     value = img11
@@ -180,7 +186,7 @@ function loadImage () {
   img9.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
-  img10.src = 'https://i.imgur.com/kt1NXYw.png'
+  img10.src = 'https://i.imgur.com/l4eLe9s.png'
   img10.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
@@ -188,8 +194,16 @@ function loadImage () {
   img11.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
-  img12.src = 'https://i.imgur.com/sLM3S2d.png'
+  img12.src = 'https://i.imgur.com/dFWJ7GR.png'
   img12.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+  img13.src = 'https://i.imgur.com/xA2xd1e.png'
+  img13.onload = function () {
+    window.requestAnimationFrame(gameLoop)
+  }
+  img14.src = 'https://i.imgur.com/h22fbhS.png'
+  img14.onload = function () {
     window.requestAnimationFrame(gameLoop)
   }
 
