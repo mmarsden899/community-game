@@ -236,12 +236,15 @@ const showMessageOnRender = function () {
       (moment().format())) {
       if (store.allMessages.messages[i].text.length > 20) {
         ctx.drawImage(speech, window.positionX - (speech.width / 2) + 32, window.positionY - 50)
+        ctx.fillStyle = '#000'
         ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 15 / 4) + 32, window.positionY - 31)
       } else if (store.allMessages.messages[i].text.length > 10) {
         ctx.drawImage(speech2, window.positionX - (speech2.width / 2) + 32, window.positionY - 50)
+        ctx.fillStyle = '#000'
         ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 15 / 4) + 32, window.positionY - 30)
       } else if (store.allMessages.messages[i].text.length > 0) {
         ctx.drawImage(speech3, window.positionX - (speech3.width / 2) + 32, window.positionY - 50)
+        ctx.fillStyle = '#000'
         ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 15 / 4) + 32, window.positionY - 30)
       } else {
         ctx.fillText(' ', window.positionX + 21.5, window.positionY - 20)
@@ -310,12 +313,15 @@ function gameLoop () {
             if (store.allMessages.messages[i].text.length > 20) {
               ctx.drawImage(speech, store.otherCharacters.characters[key].x - (speech.width / 2), store.otherCharacters.characters[key].y - 50)
               // ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 2.45), window.positionY - 31)
+              ctx.fillStyle = '#000'
               ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 15 / 4), store.otherCharacters.characters[key].y - 31)
             } else if (store.allMessages.messages[i].text.length > 10) {
               ctx.drawImage(speech2, store.otherCharacters.characters[key].x - (speech2.width / 2), store.otherCharacters.characters[key].y - 50)
+              ctx.fillStyle = '#000'
               ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 15 / 4), store.otherCharacters.characters[key].y - 31)
             } else if (store.allMessages.messages[i].text.length > 0) {
               ctx.drawImage(speech3, store.otherCharacters.characters[key].x - (speech3.width / 2), store.otherCharacters.characters[key].y - 50)
+              ctx.fillStyle = '#000'
               ctx.fillText(store.allMessages.messages[i].text, store.otherCharacters.characters[key].x - (store.allMessages.messages[i].text.length * 15 / 4), store.otherCharacters.characters[key].y - 31)
             } else {
               ctx.fillText(' ', store.otherCharacters.characters[key].x + 21.5, store.otherCharacters.characters[key].y - 20)
@@ -334,9 +340,11 @@ function gameLoop () {
           }
         }
         if (store.otherCharacters.characters[key].moving === true) {
+          ctx.fillStyle = '#fff'
           ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length / 2), store.otherCharacters.characters[key].y - 10)
           drawFrame(store.otherCharacters.characters[key].spritesheet, onlineFrameLoop[otherCurrentLoopIndex[key]], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
         } else {
+          ctx.fillStyle = '#fff'
           ctx.fillText(store.otherCharacters.characters[key].user_name, store.otherCharacters.characters[key].x + (store.otherCharacters.characters[key].user_name.length / 2), store.otherCharacters.characters[key].y - 10)
           drawFrame(store.otherCharacters.characters[key].spritesheet, onlineFrameLoop[0], directionMethod(store.otherCharacters.characters[key].direction), store.otherCharacters.characters[key].x, store.otherCharacters.characters[key].y)
         }
@@ -345,6 +353,7 @@ function gameLoop () {
     )
     drawFrame(window.sprite, frameLoop[currentLoopIndex], window.currentDirection[0], window.positionX, window.positionY)
     ctx.drawImage(transparent, 0, 0)
+    ctx.fillStyle = '#fff'
     ctx.fillText(window.user_name, window.positionX - (window.user_name.length / 2), window.positionY - 10)
     showMessageOnRender()
     window.requestAnimationFrame(gameLoop)
