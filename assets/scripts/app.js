@@ -368,10 +368,10 @@ function gameLoop () {
 }
 
 function moveCharacter (deltaX, deltaY, direction, stringDirection) {
-  if (window.positionX + deltaX > -15 && window.positionX + deltaX < canvas.width - 48 && ((window.positionX + deltaX <= 325 || (window.positionY + deltaY >= 135 || window.positionY + deltaY <= 83)) || (window.positionX + deltaX >= 675 || window.positionY + deltaY >= 132))) {
+  if (window.positionX + deltaX > -15 && window.positionX + deltaX < canvas.width - 48 && ((window.positionX + deltaX <= 325 || (window.positionY + deltaY >= 135 || window.positionY + deltaY <= 82)) || (window.positionX + deltaX >= 675 || window.positionY + deltaY >= 132))) {
     window.positionX += deltaX
   }
-  if (window.positionY + deltaY > 64 && window.positionY + deltaY < canvas.height - 64 && ((window.positionX + deltaX <= 325 || (window.positionY + deltaY >= 135 || window.positionY + deltaY <= 83)) || (window.positionX + deltaX >= 675 || window.positionY + deltaY >= 132))) {
+  if (window.positionY + deltaY > 64 && window.positionY + deltaY < canvas.height - 64 && ((window.positionX + deltaX <= 325 || (window.positionY + deltaY >= 135 || window.positionY + deltaY <= 82)) || (window.positionX + deltaX >= 675 || window.positionY + deltaY >= 132))) {
     window.positionY += deltaY
   }
   window.currentDirection[0] = direction
