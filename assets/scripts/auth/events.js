@@ -37,8 +37,8 @@ const onChangePass = function (event) {
 }
 
 const addHandlers = function (event) {
-  $('#logout').on('click', onLogOut)
   $('#logout').on('click', api.unload)
+  $('#logout').on('click', onLogOut)
   $('#change-password-form').on('submit', onChangePass)
   $('#sign-in').on('submit', onSignIn)
   $(window).on('unload', api.unLoad)

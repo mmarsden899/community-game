@@ -29,7 +29,6 @@ const onCreateCharacter = function () {
 // Character MISC
 const canCreateCharacter = function () {
   const userIDArray = []
-  console.log(userIDArray)
   for (let i = 0; i < store.otherCharacters.characters.length; i++) {
     userIDArray.push(store.otherCharacters.characters[i].user_id)
   }

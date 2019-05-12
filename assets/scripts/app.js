@@ -287,7 +287,7 @@ function gameLoop () {
 
   if (window.charCreated === true) {
     Object.keys(store.otherCharacters.characters).forEach(function (key) {
-      if ((store.otherCharacters.characters[key].active === true) &&
+      if ((store.otherCharacters.characters[key].active === true && moment(store.otherCharacters.characters[key].updated_at).add(1, 'minutes').format() > moment().format()) &&
       (store.otherCharacters.characters[key].id !== window.id)) {
         for (let i = 0; i < store.allMessages.messages.length; i++) {
           if (store.allMessages.messages[i].user_id === store.otherCharacters.characters[key].user_id &&
