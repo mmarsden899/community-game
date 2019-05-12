@@ -61,7 +61,7 @@ store.userCharacter = {}
 store.userCharacter.character = 0
 // let onUpdateChar = setInterval(test.onUpdateCharacter, 1000)
 for (let i = 0; i < 100; i++) {
-  let star = '<div class="star" style="animation: twinkle '+ ((Math.random()*5) + 5)+'s linear '+((Math.random()*5) + 5)+'s infinite; top: '+Math.random()*$(window).height()/2+'px; left: '+Math.random()*$(window).width()+'px;"></div>';
+  let star = '<div class="star" style="animation: twinkle ' + ((Math.random() * 5) + 5) + 's linear ' + ((Math.random() * 5) + 5) + 's infinite; top: ' + Math.random() * $(window).height() / 2 + 'px; left: ' + Math.random() * $(window).width() + 'px;"></div>'
   $('.modal').append(star)
 }
 
