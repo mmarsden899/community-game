@@ -126,7 +126,6 @@ function keyDownListener (event) {
 
 window.addEventListener('click', mouseOverListener)
 function mouseOverListener (event) {
-  console.log(event)
   if (event.target.localName === 'input') {
     store.cantPress = true
   } else {
@@ -222,15 +221,12 @@ const showMessageOnRender = function () {
       moment(store.allMessages.messages[i].created_at).add(10, 'seconds').format() >=
       (moment().format())) {
       if (store.allMessages.messages[i].text.length > 20) {
-        // console.log('hey the length of this string is: ', store.allMessages.messages[i].text.length)
         ctx.drawImage(speech, window.positionX - (speech.width / 2) + 32, window.positionY - 50)
         ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 15 / 4) + 32, window.positionY - 31)
       } else if (store.allMessages.messages[i].text.length > 10) {
-        // console.log('hey the length of this string is: ', store.allMessages.messages[i].text.length)
         ctx.drawImage(speech2, window.positionX - (speech2.width / 2) + 32, window.positionY - 50)
         ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 15 / 4) + 32, window.positionY - 30)
       } else if (store.allMessages.messages[i].text.length > 0) {
-        // console.log('hey the length of this string is: ', store.allMessages.messages[i].text.length)
         ctx.drawImage(speech3, window.positionX - (speech3.width / 2) + 32, window.positionY - 50)
         ctx.fillText(store.allMessages.messages[i].text, window.positionX - (store.allMessages.messages[i].text.length * 15 / 4) + 32, window.positionY - 30)
       } else {
@@ -269,9 +265,10 @@ function gameLoop () {
     window.hasMoved = true
   }
 
-  if (keyPresses.Enter) {
-    console.log('oh heyyyyyyyy')
-  }
+  // come back to this for user interactions
+  // if (keyPresses.Enter) {
+  //   console.log('oh heyyyyyyyy')
+  // }
 
   if (window.hasMoved) {
     frameCount++
