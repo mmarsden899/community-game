@@ -4,7 +4,6 @@ const charEvents = require('./../character/events')
 // Auth UI
 const signInSuccess = function (data) {
   charEvents.onGetCharacters()
-  charEvents.isCharCreatedTrue()
   $('#accounts-page').show()
   $('#loginForms').hide()
   $('#signInError').text(' ')

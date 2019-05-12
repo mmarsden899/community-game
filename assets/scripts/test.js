@@ -2,8 +2,8 @@
 const hideModal = function () {
   $('.modal').hide()
   $('#play').hide()
-  $('#alreadyplayed').show()
   window.currentPlaying = true
+  $('#alreadyplayed').show()
 }
 
 // MISC SHOW DIVS

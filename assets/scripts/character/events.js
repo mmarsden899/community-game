@@ -16,7 +16,6 @@ const onDestroyCharacter = function (event) {
   event.preventDefault()
   api.destroyCharacter()
     .then(ui.destroyCharacterSuccess)
-    .then(canCreateCharacter)
     .catch()
 }
 
@@ -30,6 +29,7 @@ const onCreateCharacter = function () {
 // Character MISC
 const canCreateCharacter = function () {
   const userIDArray = []
+  console.log(userIDArray)
   for (let i = 0; i < store.otherCharacters.characters.length; i++) {
     userIDArray.push(store.otherCharacters.characters[i].user_id)
   }
@@ -41,32 +41,25 @@ const canCreateCharacter = function () {
     window.sprite = store.otherCharacters.characters[window.userIDIndex].spritesheet
     window.id = store.otherCharacters.characters[window.userIDIndex].id
     window.charCreated = true
-    if (!window.currentPlaying) {
+    if (!window.currentPlaying && window.charCreated) {
       $('#play').show()
-    } else {
+    } else if (window.charCreated) {
       $('#alreadyplayed').show()
     }
   } else {
+    $('#play').hide()
+    $('#alreadyplayed').hide()
     $('#create-character').show()
     $('#destroychar').hide()
   }
 }
 
-// character MISC
-const isCharCreatedTrue = function () {
-  if (window.charCreated === true) {
-  } else {
-    setTimeout(isCharCreatedTrue, 500)
-  }
-}
-
-// character API
+// character Events
 const onGetCharacters = function () {
   if (gameIsBeingPlayed) {
     api.getCharacters()
       .then(ui.showCharacterSuccess)
       .catch(ui.showCharacterFailure)
-  } else {
   }
 }
 
@@ -74,13 +67,11 @@ const addHandlers = function () {
   $('#create-character').hide()
   $('#create-character').on('click', onCreateCharacter)
   $('#destroychar').on('click', onDestroyCharacter)
-  $('#updatechar').on('click', isCharCreatedTrue)
 }
 
 module.exports = {
   addHandlers,
   onGetCharacters,
   canCreateCharacter,
-  isCharCreatedTrue,
   onUpdateCharacter
 }

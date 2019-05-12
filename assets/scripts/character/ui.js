@@ -25,6 +25,8 @@ const createCharacterSuccess = function (data) {
   $('#accountError').text('Character created!')
   if (!window.currentPlaying) {
     $('#play').show()
+  } else {
+    $('#alreadyplayed').show()
   }
 }
 
@@ -48,6 +50,7 @@ const destroyCharacterSuccess = function () {
   $('#destroychar').hide()
   $('#create-character').show()
   $('#accountError').text('Character deleted')
+  setTimeout(events.canCreateCharacter, 1000)
 }
 
 module.exports = {
