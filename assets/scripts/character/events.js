@@ -63,6 +63,7 @@ const onGetCharacters = function () {
 }
 
 const addHandlers = function () {
+  $('#computerBrowser').hide()
   $('#create-character').hide()
   $('#create-character').on('click', onCreateCharacter)
   $('#destroychar').on('click', onDestroyCharacter)

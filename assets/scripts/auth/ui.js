@@ -43,6 +43,13 @@ const logoutSuccess = function () {
   $('#loginForms').show()
   $('#alreadyplayed').hide()
   store.user.token = null
+  store.userCharacter = null
+  window.charCreated = null
+  window.positionX = null
+  window.positionY = null
+  window.user_name = null
+  window.id = null
+  window.sprite = null
 }
 
 // AUTH UI
@@ -57,12 +64,14 @@ const onChangePassSuccess = function (data) {
   $('#accounts-page').show()
   $('#accountError').css('color', 'white')
   $('#accountError').text('Password succesfully changed')
+  $('form').trigger('reset')
 }
 
 // Auth UI
 const onChangePassFailure = function () {
   $('#password-error').text('Something went wrong. Please try again')
   $('#password-error').css('color', 'red')
+  $('form').trigger('reset')
 }
 
 module.exports = {

@@ -229,6 +229,10 @@ function loadImage () {
   }
 }
 
+// const timeToBrowse = function () {
+//   $('#computerBrowser').show()
+// }
+
 const showMessageOnRender = function () {
   for (let i = 0; i < store.allMessages.messages.length; i++) {
     if (store.allMessages.messages[i].user_id === store.user.id &&
@@ -282,9 +286,11 @@ function gameLoop () {
     window.hasMoved = true
   }
 
-  // come back to this for user interactions
-  // if (keyPresses.Enter) {
-  //   console.log('oh heyyyyyyyy')
+  // // come back to this for user interactions
+  // if (keyPresses.Enter && (Math.ceil(window.positionX / 10) * 10 === 100 || Math.ceil(window.positionX / 10) * 10 === 90 || Math.ceil(window.positionX / 10) * 10 === 80) && (Math.ceil(window.positionY / 10) * 10 === 100)) {
+  //   // console.log(window.positionX)
+  //   // console.log('oh heyyyyyyyy')
+  //   // timeToBrowse()
   // }
 
   if (window.hasMoved) {

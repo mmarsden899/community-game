@@ -140,6 +140,15 @@ button, .submit-button {
   background-image: url('public/city-pixel.jpg');
 }
 
+.computerBrowser, iframe {
+  margin-top: -50vh;
+  margin-left: 5vw;
+  margin-bottom: 0;
+  height: 576px;
+  width: 1024px;
+  position: absolute;
+}
+
 #tictac {
   background-color: rgba(0,0,0,0);
   border: solid 1px black;
