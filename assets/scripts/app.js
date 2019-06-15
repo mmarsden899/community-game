@@ -15,7 +15,12 @@ const messageEvents = require('./message/events')
 
 const playerSize = 64
 const frameLoop = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-const onlineFrameLoop = [0, 1, 0, 2]
+const onlineFrameLoop = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+const moveLoop = [0, 1, 2, 3, 4]
+const moveSouth = 14
+const moveNorth = 12
+const moveWest = 13
+const moveRight = 15
 const faceSouth = 10
 const faceNorth = 8
 const faceWest = 9
@@ -229,9 +234,9 @@ function loadImage () {
   }
 }
 
-// const timeToBrowse = function () {
-//   $('#computerBrowser').show()
-// }
+const timeToBrowse = function () {
+  $('#computerBrowser').show()
+}
 
 const showMessageOnRender = function () {
   for (let i = 0; i < store.allMessages.messages.length; i++) {
@@ -286,12 +291,13 @@ function gameLoop () {
     window.hasMoved = true
   }
 
-  // // come back to this for user interactions
-  // if (keyPresses.Enter && (Math.ceil(window.positionX / 10) * 10 === 100 || Math.ceil(window.positionX / 10) * 10 === 90 || Math.ceil(window.positionX / 10) * 10 === 80) && (Math.ceil(window.positionY / 10) * 10 === 100)) {
-  //   // console.log(window.positionX)
-  //   // console.log('oh heyyyyyyyy')
-  //   // timeToBrowse()
-  // }
+  // come back to this for user interactions
+  if (keyPresses.Enter && !(Math.ceil(window.positionX / 10) * 10 === 100 || Math.ceil(window.positionX / 10) * 10 === 90 || Math.ceil(window.positionX / 10) * 10 === 80) && (Math.ceil(window.positionY / 10) * 10 === 100)) {
+    // console.log(window.positionX)
+    // console.log('oh heyyyyyyyy')
+  } else {
+    timeToBrowse()
+  }
 
   if (window.hasMoved) {
     frameCount++
@@ -385,9 +391,9 @@ function moveCharacter (deltaX, deltaY, direction, stringDirection) {
 }
 
 const setHTTPRequests = function () {
-  window.getCharInt = setInterval(charEvents.onGetCharacters, 450)
-  window.updateCharInt = setInterval(charEvents.onUpdateCharacter, 450)
-  window.getMess = setInterval(messageEvents.onGetMessages, 600)
+  window.getCharInt = setInterval(charEvents.onGetCharacters, 250)
+  window.updateCharInt = setInterval(charEvents.onUpdateCharacter, 250)
+  window.getMess = setInterval(messageEvents.onGetMessages, 250)
 }
 
 const shutOffHTTPRequests = function () {

@@ -69,7 +69,7 @@ As a user, I want to be able to receive messages
 
 ### Licensing
 
-According to the rules of the LPC all art submissions were dual licensed under both GNU GPL 3.0 and CC-BY-SA 3.0. These art submissions are considered all images present in the directory `spritesheets` and it's subdirectories. Further work produced in this repository is licensed under the same terms.
+According to the rules of the LPC all art submissions were dual licensed under both GNU GPL 3.0 and CC-BY-SA 3.0. These art submissions are considered all images present in the directory `assets` and it's subdirectories. Further work produced in this repository is licensed under the same terms.
 
 CC-BY-SA 3.0:
  - http://creativecommons.org/licenses/by-sa/3.0/
